@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sriya Mitra</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f9f7f4;
+    --ink: #1c1a18;
+    --mid: #6e6861;
+    --light: #ddd8d0;
+    --warm: #ece8e1;
+    --accent: #3d6b5e;
+    --accent-light: #eaf0ee;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3.5rem;
+    background: rgba(249,247,244,0.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--light);
+  }
+  .nav-name {
+    font-family: 'Lora', serif;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--mid);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links .nav-cta {
+    background: var(--accent);
+    color: white;
+    padding: 0.45rem 1.2rem;
+    border-radius: 3px;
+    font-size: 0.78rem;
+  }
+  .nav-links .nav-cta:hover { background: #2f5447; color: white; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3.5rem 5rem;
+    max-width: 780px;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.5s ease both;
+  }
+  .hero h1 {
+    font-family: 'Lora', serif;
+    font-weight: 400;
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    line-height: 1.15;
+    margin-bottom: 1.4rem;
+    animation: fadeUp 0.5s 0.08s ease both;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--mid);
+    max-width: 55ch;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.5s 0.16s ease both;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.5s 0.24s ease both;
+  }
+  .btn {
+    padding: 0.75rem 1.8rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: all 0.18s;
+    border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { background: #2f5447; }
+  .btn-ghost { border-color: var(--light); color: var(--ink); background: transparent; }
+  .btn-ghost:hover { border-color: var(--ink); }
+
+  /* DIVIDER */
+  .divider {
+    width: 48px; height: 1px;
+    background: var(--light);
+    margin: 0 3.5rem;
+  }
+
+  /* ABOUT */
+  .about {
+    padding: 5rem 3.5rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: start;
+    max-width: 1000px;
+  }
+  .about-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mid);
+    padding-top: 0.35rem;
+  }
+  .about-content { }
+  .about-content p {
+    font-size: 0.95rem;
+    color: var(--mid);
+    margin-bottom: 1.2rem;
+    line-height: 1.75;
+  }
+  .about-content p:last-child { margin-bottom: 0; }
+  .about-content strong { color: var(--ink); font-weight: 500; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.85rem;
+    border: 1px solid var(--light);
+    border-radius: 20px;
+    color: var(--mid);
+    background: white;
+  }
+
+  /* EXPERIENCE */
+  .experience {
+    padding: 5rem 3.5rem;
+    max-width: 1000px;
+  }
+  .exp-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 2.5rem;
+  }
+  .timeline { }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--light);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .tl-item:last-child { border-bottom: 1px solid var(--light); }
+  .tl-item.visible { opacity: 1; transform: translateY(0); }
+  .tl-meta { padding-top: 0.1rem; }
+  .tl-period {
+    font-size: 0.75rem;
+    color: var(--mid);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+  }
+  .tl-org {
+    font-size: 0.78rem;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  .tl-body { }
+  .tl-role {
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-bottom: 0.7rem;
+  }
+  .tl-bullets { list-style: none; }
+  .tl-bullets li {
+    font-size: 0.85rem;
+    color: var(--mid);
+    padding: 0.25rem 0;
+    padding-left: 1rem;
+    position: relative;
+  }
+  .tl-bullets li::before {
+    content: '—';
+    position: absolute; left: 0;
+    color: var(--light);
+    font-size: 0.7rem;
+    top: 0.35rem;
+  }
+
+  /* EDUCATION strip */
+  .edu-strip {
+    margin: 0 3.5rem;
+    background: var(--warm);
+    border-radius: 6px;
+    padding: 1.8rem 2rem;
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .edu-item { }
+  .edu-deg {
+    font-family: 'Lora', serif;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+  }
+  .edu-school { font-size: 0.8rem; color: var(--mid); }
+  .edu-year { font-size: 0.72rem; color: var(--accent); margin-top: 0.2rem; letter-spacing: 0.05em; }
+
+  /* PAGE LINK */
+  .page-link-section {
+    padding: 5rem 3.5rem 6rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .page-link-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: white;
+    border: 1px solid var(--light);
+    border-radius: 6px;
+    padding: 1.8rem 2.5rem;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.2s;
+    max-width: 420px;
+  }
+  .page-link-card:hover { border-color: var(--accent); box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+  .page-link-arrow {
+    font-size: 1.4rem;
+    color: var(--accent);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+  }
+  .page-link-card:hover .page-link-arrow { transform: translateX(4px); }
+  .page-link-title { font-family: 'Lora', serif; font-size: 1rem; margin-bottom: 0.25rem; }
+  .page-link-desc { font-size: 0.8rem; color: var(--mid); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .hero, .about, .experience { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .divider { margin: 0 1.5rem; }
+    .edu-strip { margin: 0 1.5rem; }
+    .page-link-section { padding: 3rem 1.5rem 4rem; }
+    .about { grid-template-columns: 1fr; gap: 1rem; }
+    .tl-item { grid-template-columns: 1fr; gap: 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-name">Sriya Mitra</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="work.html">Projects & Skills</a></li>
+    <li><a href="work.html#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="home">
+  <div class="hero-eyebrow">Available Summer 2026 · San Francisco, CA</div>
+  <h1>Analytics & strategy,<br><em>grounded in data</em></h1>
+  <p class="hero-sub">MSBA candidate at UC Davis with 4+ years in consulting and marketing analytics — turning complex data into decisions that move the business forward.</p>
+  <div class="hero-actions">
+    <a href="work.html#contact" class="btn btn-primary">Get in touch</a>
+    <a href="#experience" class="btn btn-ghost">See experience</a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<div class="about" id="about">
+  <div class="about-label">About</div>
+  <div class="about-content">
+    <p>I'm a business analyst and strategy consultant with a background spanning <strong>enterprise technology, marketing operations, and data science</strong>. I've worked across Accenture, EY, and TCS — and I'm currently deepening my analytical toolkit through the MSBA program at UC Davis.</p>
+    <p>What sets me apart is the ability to sit at the intersection of technical depth and business clarity: I can write the SQL, build the model, and then walk leadership through what it means for the roadmap.</p>
+    <p>I'm drawn to roles where data drives strategy — whether that's optimizing marketing campaigns at scale, shaping product decisions, or building the analytics infrastructure that powers both.</p>
+    <div class="tags">
+      <span class="tag">SQL & Python</span>
+      <span class="tag">Salesforce MC</span>
+      <span class="tag">Statistical Modeling</span>
+      <span class="tag">Campaign Analytics</span>
+      <span class="tag">Cross-functional Execution</span>
+      <span class="tag">Data Governance</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<div class="experience" id="experience">
+  <div class="exp-label">Experience</div>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-meta">
+        <div class="tl-period">Aug 2023 – Jul 2025</div>
+        <div class="tl-org">Accenture</div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-role">Business Consulting Analyst</div>
+        <ul class="tl-bullets">
+          <li>SQL-based audience segmentation for 100K+ users across global markets via Salesforce Marketing Cloud</li>
+          <li>Analyzed engagement and conversion metrics to optimize campaign journeys end-to-end</li>
+          <li>Conducted campaign QA from ideation through production; mentored 10+ analysts on automation workflows</li>
+          <li>Recognized as Champion of the Quarter (Q1 FY24) for outstanding contribution</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-meta">
+        <div class="tl-period">May 2022 – Jul 2022</div>
+        <div class="tl-org">Ernst & Young</div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-role">Technology Consulting Intern</div>
+        <ul class="tl-bullets">
+          <li>Supported data governance and privacy compliance documentation</li>
+          <li>Comparative analysis of data privacy platforms that shaped final vendor selection</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-meta">
+        <div class="tl-period">Jul 2019 – Jul 2021</div>
+        <div class="tl-org">TCS</div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-role">System Engineer</div>
+        <ul class="tl-bullets">
+          <li>Built enterprise data integrations using SAP PI/PO, CPI, and Dell Boomi</li>
+          <li>Designed end-to-end B2B interfaces with monitoring, troubleshooting, and alert management</li>
+          <li>Awarded On the Spot Award for proactive problem-solving</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- EDUCATION STRIP -->
+<div class="edu-strip">
+  <div class="edu-item">
+    <div class="edu-deg">M.S. Business Analytics</div>
+    <div class="edu-school">UC Davis</div>
+    <div class="edu-year">2025 – 2026</div>
+  </div>
+  <div class="edu-item">
+    <div class="edu-deg">MBA — Analytics & Finance</div>
+    <div class="edu-school">Symbiosis International University · GPA 8.36/10, Rank #3</div>
+    <div class="edu-year">2021 – 2023</div>
+  </div>
+  <div class="edu-item">
+    <div class="edu-deg">B.E. Electronics & Communication</div>
+    <div class="edu-school">Gujarat Technological University</div>
+    <div class="edu-year">2015 – 2019</div>
+  </div>
+</div>
+
+<!-- PAGE 2 LINK -->
+<div class="page-link-section">
+  <a href="work.html" class="page-link-card">
+    <div>
+      <div class="page-link-title">Projects, Skills & Contact</div>
+      <div class="page-link-desc">Selected work, technical capabilities, and how to reach me</div>
+    </div>
+    <div class="page-link-arrow">→</div>
+  </a>
+</div>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.tl-item').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sriya Mitra — Projects & Skills</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f9f7f4;
+    --ink: #1c1a18;
+    --mid: #6e6861;
+    --light: #ddd8d0;
+    --warm: #ece8e1;
+    --accent: #3d6b5e;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+  }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3.5rem;
+    background: rgba(249,247,244,0.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--light);
+  }
+  .nav-name {
+    font-family: 'Lora', serif;
+    font-weight: 400;
+    font-size: 1rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--mid);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links .nav-cta {
+    background: var(--accent);
+    color: white;
+    padding: 0.45rem 1.2rem;
+    border-radius: 3px;
+    font-size: 0.78rem;
+  }
+  .nav-links .nav-cta:hover { background: #2f5447; color: white; }
+
+  /* PAGE HERO */
+  .page-hero {
+    padding: 8rem 3.5rem 3.5rem;
+    max-width: 600px;
+    animation: fadeUp 0.5s ease both;
+  }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--mid);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--accent); }
+  .page-hero h1 {
+    font-family: 'Lora', serif;
+    font-weight: 400;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+  }
+  .page-hero p { font-size: 0.92rem; color: var(--mid); }
+
+  .divider { width: 48px; height: 1px; background: var(--light); margin: 0 3.5rem; }
+
+  /* SECTION */
+  .section { padding: 4.5rem 3.5rem; max-width: 1000px; }
+  .section-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 2.5rem;
+  }
+
+  /* PROJECTS */
+  .projects-list { display: flex; flex-direction: column; gap: 0; }
+  .project-row {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 2rem;
+    align-items: start;
+    padding: 2rem 0;
+    border-top: 1px solid var(--light);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .project-row:last-child { border-bottom: 1px solid var(--light); }
+  .project-row.visible { opacity: 1; transform: translateY(0); }
+  .proj-year { font-size: 0.75rem; color: var(--mid); padding-top: 0.2rem; }
+  .proj-title {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  .proj-desc { font-size: 0.84rem; color: var(--mid); line-height: 1.65; max-width: 58ch; }
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+  .proj-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.7rem;
+    border: 1px solid var(--light);
+    border-radius: 20px;
+    color: var(--mid);
+  }
+  .proj-highlight {
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-weight: 500;
+    white-space: nowrap;
+    padding-top: 0.2rem;
+    letter-spacing: 0.03em;
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--light);
+    border-radius: 6px;
+    overflow: hidden;
+    background: white;
+  }
+  .skill-group {
+    padding: 2rem;
+    border-right: 1px solid var(--light);
+    border-bottom: 1px solid var(--light);
+  }
+  .skill-group:nth-child(3), .skill-group:nth-child(6) { border-right: none; }
+  .skill-group:nth-child(4), .skill-group:nth-child(5), .skill-group:nth-child(6) { border-bottom: none; }
+  .sg-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .sg-list { list-style: none; }
+  .sg-list li {
+    font-size: 0.83rem;
+    color: var(--mid);
+    padding: 0.22rem 0;
+    border-bottom: 1px dotted var(--warm);
+  }
+  .sg-list li:last-child { border-bottom: none; }
+
+  /* AWARDS */
+  .awards-list { list-style: none; }
+  .award-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 1rem 0;
+    border-top: 1px solid var(--light);
+    gap: 2rem;
+  }
+  .award-item:last-child { border-bottom: 1px solid var(--light); }
+  .award-name { font-size: 0.88rem; max-width: 50ch; }
+  .award-year { font-size: 0.75rem; color: var(--mid); white-space: nowrap; }
+
+  /* CONTACT */
+  .contact {
+    padding: 5rem 3.5rem 7rem;
+    max-width: 600px;
+  }
+  .contact .section-label { margin-bottom: 1.5rem; }
+  .contact h2 {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+  .contact p { font-size: 0.92rem; color: var(--mid); margin-bottom: 2.5rem; max-width: 48ch; }
+  .contact-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .contact-link {
+    padding: 0.75rem 1.8rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: all 0.18s;
+    border: 1px solid transparent;
+  }
+  .contact-link-primary { background: var(--accent); color: white; }
+  .contact-link-primary:hover { background: #2f5447; }
+  .contact-link-ghost { border-color: var(--light); color: var(--ink); }
+  .contact-link-ghost:hover { border-color: var(--ink); }
+
+  footer {
+    background: var(--warm);
+    border-top: 1px solid var(--light);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.72rem;
+    color: var(--mid);
+    letter-spacing: 0.05em;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .page-hero, .section, .contact { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .divider { margin: 0 1.5rem; }
+    .project-row { grid-template-columns: 1fr; gap: 0.4rem; }
+    .proj-highlight { display: none; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skill-group:nth-child(2n) { border-right: none; }
+    .skill-group:nth-child(2n+1) { border-right: 1px solid var(--light); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-name">Sriya Mitra</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <a href="index.html" class="back-link">← Back to main</a>
+  <h1>Projects & Skills</h1>
+  <p>Selected analytical work, technical capabilities, and recognition.</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<div class="section" id="projects">
+  <div class="section-label">Projects</div>
+  <div class="projects-list">
+
+    <div class="project-row">
+      <div class="proj-year">2025</div>
+      <div>
+        <div class="proj-title">Marketing Budget Optimization</div>
+        <div class="proj-desc">Built multiple regression models on 3,600 observations to identify key sales drivers and recommend allocation for a large e-commerce marketing budget. Used hypothesis testing to validate model assumptions in R.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">R</span>
+          <span class="proj-tag">Regression Analysis</span>
+          <span class="proj-tag">Hypothesis Testing</span>
+          <span class="proj-tag">E-commerce</span>
+        </div>
+      </div>
+      <div class="proj-highlight">$20M budget</div>
+    </div>
+
+    <div class="project-row">
+      <div class="proj-year">2025</div>
+      <div>
+        <div class="proj-title">AI App Beta Testing — RoloScan</div>
+        <div class="proj-desc">Managed beta testing for an agentic AI application (RoloScan), designing user surveys and synthesizing qualitative feedback to recommend prioritized feature enhancements for the product roadmap.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">User Research</span>
+          <span class="proj-tag">Product Strategy</span>
+          <span class="proj-tag">Agentic AI</span>
+        </div>
+      </div>
+      <div class="proj-highlight">Practicum</div>
+    </div>
+
+    <div class="project-row">
+      <div class="proj-year">2023</div>
+      <div>
+        <div class="proj-title">Telecom Industry Forecast — Prevision 2023</div>
+        <div class="proj-desc">Researched trends in fiber networks and wireless broadband to forecast industry growth for SIDTM's 19th annual telecom report. Covered market sizing, competitive dynamics, and technology adoption curves.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">Market Research</span>
+          <span class="proj-tag">Forecasting</span>
+          <span class="proj-tag">Telecom</span>
+        </div>
+      </div>
+      <div class="proj-highlight">Published report</div>
+    </div>
+
+    <div class="project-row">
+      <div class="proj-year">2022</div>
+      <div>
+        <div class="proj-title">IoT Applications in Healthcare</div>
+        <div class="proj-desc">Applied research identifying pain points in healthcare IoT systems — from device interoperability to data privacy — and proposing data-driven product improvements for better patient outcomes.</div>
+        <div class="proj-tags">
+          <span class="proj-tag">IoT</span>
+          <span class="proj-tag">Healthcare</span>
+          <span class="proj-tag">UX Research</span>
+        </div>
+      </div>
+      <div class="proj-highlight">Research</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<div class="section" id="skills">
+  <div class="section-label">Skills</div>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <div class="sg-title">Analytics</div>
+      <ul class="sg-list">
+        <li>SQL</li>
+        <li>Python</li>
+        <li>R</li>
+        <li>Machine Learning</li>
+        <li>Regression Analysis</li>
+        <li>Time Series Forecasting</li>
+        <li>Hypothesis Testing</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="sg-title">Visualization</div>
+      <ul class="sg-list">
+        <li>Tableau</li>
+        <li>Power BI</li>
+        <li>Excel</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="sg-title">Marketing & CRM</div>
+      <ul class="sg-list">
+        <li>Salesforce Marketing Cloud</li>
+        <li>SFMC Email Specialist</li>
+        <li>Campaign QA</li>
+        <li>Audience Segmentation</li>
+        <li>Journey Builder</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="sg-title">Strategy</div>
+      <ul class="sg-list">
+        <li>Market Research</li>
+        <li>Competitive Analysis</li>
+        <li>Customer Segmentation</li>
+        <li>Data Governance</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="sg-title">Enterprise Tech</div>
+      <ul class="sg-list">
+        <li>SAP PI/PO & CPI</li>
+        <li>Dell Boomi</li>
+        <li>AWS (Cloud Foundations)</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <div class="sg-title">Certifications</div>
+      <ul class="sg-list">
+        <li>Salesforce MC Admin</li>
+        <li>Salesforce Email Specialist</li>
+        <li>AWS Cloud Foundations</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- AWARDS -->
+<div class="section">
+  <div class="section-label">Recognition</div>
+  <ul class="awards-list">
+    <li class="award-item">
+      <span class="award-name">Accenture Champion of the Quarter — Above and Beyond, Q1 FY24</span>
+      <span class="award-year">2023</span>
+    </li>
+    <li class="award-item">
+      <span class="award-name">Ranked 3rd in SIDTM MBA cohort of 160 students</span>
+      <span class="award-year">2023</span>
+    </li>
+    <li class="award-item">
+      <span class="award-name">Postgraduate Merit Scholarship, Symbiosis International University</span>
+      <span class="award-year">2023</span>
+    </li>
+    <li class="award-item">
+      <span class="award-name">TCS On the Spot Award for proactive problem-solving</span>
+      <span class="award-year">2021</span>
+    </li>
+  </ul>
+</div>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<div class="contact" id="contact">
+  <div class="section-label">Contact</div>
+  <h2>Let's connect</h2>
+  <p>Open to full-time roles and internships in analytics, strategy, and marketing operations. Always happy to talk data.</p>
+  <div class="contact-links">
+    <a href="mailto:sriya.mitra697@gmail.com" class="contact-link contact-link-primary">sriya.mitra697@gmail.com</a>
+    <a href="https://www.linkedin.com/in/sriya-mitra/" target="_blank" class="contact-link contact-link-ghost">LinkedIn</a>
+  </div>
+</div>
+
+<footer>© 2026 Sriya Mitra · San Francisco, CA</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.project-row').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
