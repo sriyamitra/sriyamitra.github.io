@@ -4,9 +4,9 @@ permalink: /cv/
 title: CV
 nav: true
 nav_order: 5
-cv_pdf: /assets/pdf/example_pdf.pdf # you can also use external links here
+cv_pdf: /assets/pdf/Sriya_Mitra_Resume.pdf # path to Sriya Mitra's resume PDF
 cv_format: rendercv # options: rendercv, jsonresume
-description: This is a description of the page. You can modify it in '_pages/cv.md'. You can also change or remove the top pdf download button.
+description: Sriya Mitra's Resume / Curriculum Vitae. You can download the PDF using the button above.
 toc:
   sidebar: left
 ---
