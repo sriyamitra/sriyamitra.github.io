@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <style>
+    .tcs-text {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 800;
+      font-size: 34px;
+      fill: #111111;
+      letter-spacing: 0.04em;
+    }
+    .sub {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 600;
+      font-size: 9px;
+      fill: #555555;
+      letter-spacing: 0.18em;
+    }
+    .dot {
+      fill: #2B76C1;
+    }
+  </style>
+  <text x="10" y="38" class="tcs-text">tcs</text>
+  <circle cx="68" cy="18" r="4" class="dot" />
+  <text x="12" y="52" class="sub">TATA CONSULTANCY SERVICES</text>
+</svg>

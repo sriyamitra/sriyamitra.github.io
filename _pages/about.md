@@ -30,6 +30,14 @@ latest_posts:
 
 I am an MSBA (Master of Science in Business Analytics) student at **UC Davis** with an engineering and business foundation and **4 years of experience** in consulting and marketing automation. My work spans product strategy, data analytics, and cross-functional collaboration.
 
-<!-- PLACEHOLDER_BIO: Add more about your research interests, thesis topic, or recent work here -->
+
+<div class="hero__companies">
+  <div class="hero__companies-logos">
+    <img src="{{ '/assets/img/companies/UCDavisLogo.svg' | relative_url }}" alt="UC Davis" class="company-logo" style="height: 26px;">
+    <img src="{{ '/assets/img/companies/AccentureLogo.svg' | relative_url }}" alt="Accenture" class="company-logo" style="height: 22px;">
+    <img src="{{ '/assets/img/companies/EYLogo.svg' | relative_url }}" alt="EY" class="company-logo" style="height: 28px;">
+    <img src="{{ '/assets/img/companies/TCSLogo.svg' | relative_url }}" alt="TCS" class="company-logo" style="height: 30px;">
+  </div>
+</div>
 
 <!-- PLACEHOLDER_SECTION: You can add an Experience or Education timeline here, or link to your CV in _pages/cv.md -->
