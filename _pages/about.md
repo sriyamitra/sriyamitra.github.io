@@ -28,5 +28,3 @@ latest_posts:
 I am an MSBA (Master of Science in Business Analytics) student at **UC Davis** with an engineering and business foundation and **4 years of experience** in consulting and marketing automation. My work spans product strategy, data analytics, and cross-functional collaboration.
 
 
-<!-- PLACEHOLDER_SECTION: You can add an Experience or Education timeline here, or link to your CV in _pages/cv.md -->
-
