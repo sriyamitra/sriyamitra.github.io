@@ -10,9 +10,6 @@ profile:
   image: sriya_photo.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>San Francisco, CA / Davis, CA</p>
-    <p><a href="mailto:sriya.mitra697@gmail.com">sriya.mitra697@gmail.com</a></p>
-    <!-- PLACEHOLDER: Add phone number, office address, or scheduling link here -->
 
 selected_papers: false # set to true when you add papers marked as "selected={true}" to _bibliography/papers.bib
 social: true # includes social icons at the bottom of the page
@@ -88,7 +85,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let isHovered = false;
 
   const charRamp = "@%#*+=-:. ";
-  const cellSize = 5;
+  const cellSize = 8;
 
   function drawAsciify() {
     const width = profileImg.clientWidth;
@@ -115,7 +112,7 @@ window.addEventListener('DOMContentLoaded', () => {
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
 
-    const radius = Math.round(height * 0.20);
+    const radius = Math.round(height * 0.4);
     const softEdge = radius; // softness = 1.0
 
     for (let y = cellSize / 2; y < height; y += cellSize) {
