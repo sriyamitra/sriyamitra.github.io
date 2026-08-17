@@ -33,10 +33,11 @@ I am an MSBA (Master of Science in Business Analytics) student at **UC Davis** w
 
 <div class="hero__companies">
   <div class="hero__companies-logos">
-    <img src="{{ '/assets/img/companies/UCDavisLogo.svg' | relative_url }}" alt="UC Davis" class="company-logo" style="height: 26px;">
-    <img src="{{ '/assets/img/companies/AccentureLogo.svg' | relative_url }}" alt="Accenture" class="company-logo" style="height: 22px;">
-    <img src="{{ '/assets/img/companies/EYLogo.svg' | relative_url }}" alt="EY" class="company-logo" style="height: 28px;">
-    <img src="{{ '/assets/img/companies/TCSLogo.svg' | relative_url }}" alt="TCS" class="company-logo" style="height: 30px;">
+    <img src="{{ 'https://1000logos.net/wp-content/uploads/2024/01/UC-Davis-logo.png' | relative_url }}" alt="UC Davis" class="company-logo" style="height: 60px;">
+    <img src="{{ '/assets/img/companies/AccentureLogo.svg' | relative_url }}" alt="Accenture" class="company-logo" style="height: 26px; position: relative; top: -6px;">
+    <img src="{{ '/assets/img/companies/EYLogo.svg' | relative_url }}" alt="EY" class="company-logo" style="height: 30px; position: relative; top: -7px;">
+    <img src="{{ 'https://symhealth.siu.edu.in/assets/SIUDeemedUniversity151.png' | relative_url }}" alt="EY" class="company-logo" style="height: 30px;">
+    <img src="{{ 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Tata_Consultancy_Services_old_logo.svg/1280px-Tata_Consultancy_Services_old_logo.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail' | relative_url }}" alt="TCS" class="company-logo" style="height: 36px;">
   </div>
 </div>
 
