@@ -76,7 +76,7 @@ nav_order: 2
           GTM Analyst — <span class="exp-company">BioMeBar (Healthcare Startup)</span>
         </h4>
       </div>
-      <img src="{{ '/assets/img/companies/BioMeBarLogo.svg' | relative_url }}" alt="BioMeBar" class="exp-logo">
+      <img src="{{ '/assets/img/companies/BioMeBarLogo.png' | relative_url }}" alt="BioMeBar" class="exp-logo" style="filter: invert(1);">
     </div>
     <div class="exp-meta">[Jun 2026 – Present] | Healthcare Startup / Hybrid</div>
     <ul class="exp-highlights">
