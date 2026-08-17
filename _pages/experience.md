@@ -132,7 +132,7 @@ nav_order: 2
           System Engineer — <span class="exp-company">Tata Consultancy Services (TCS)</span>
         </h4>
       </div>
-      <img src="{{ '/assets/img/companies/TCSLogo.svg' | relative_url }}" alt="TCS" class="exp-logo">
+      <img src="{{ '/assets/img/companies/TCSOldLogo.png' | relative_url }}" alt="TCS" class="exp-logo">
     </div>
     <div class="exp-meta">[Jul 2019 – Jul 2021] | Enterprise Systems</div>
     <ul class="exp-highlights">
