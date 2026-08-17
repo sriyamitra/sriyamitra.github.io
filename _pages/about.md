@@ -88,7 +88,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let isHovered = false;
 
   const charRamp = "@%#*+=-:. ";
-  const cellSize = 3;
+  const cellSize = 5;
 
   function drawAsciify() {
     const width = profileImg.clientWidth;
@@ -111,11 +111,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (!isHovered) return;
 
-    ctx.font = '5px monospace';
+    ctx.font = 'bold 8px monospace';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
 
-    const radius = Math.round(height * 0.4);
+    const radius = Math.round(height * 0.20);
     const softEdge = radius; // softness = 1.0
 
     for (let y = cellSize / 2; y < height; y += cellSize) {
