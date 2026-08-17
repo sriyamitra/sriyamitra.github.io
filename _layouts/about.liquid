@@ -49,6 +49,17 @@ layout: default
       </div>
     {% endif %}
 
+    <style>
+      .hero__companies-logos .company-logo {
+        filter: grayscale(100%);
+        opacity: 0.65;
+        transition: all 0.2s ease;
+      }
+      .hero__companies-logos .company-logo:hover {
+        filter: grayscale(0%);
+        opacity: 1;
+      }
+    </style>
     <div class="hero__companies" style="margin-top: 1.5rem;">
       <div class="hero__companies-logos">
         <img src="{{ '/assets/img/companies/UCDavisLogo.png' | relative_url }}" alt="UC Davis" class="company-logo" style="height: 60px;">
