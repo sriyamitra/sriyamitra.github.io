@@ -68,103 +68,28 @@ nav_order: 2
 </style>
 
 <ul class="exp-list">
-  <!-- BioMeBar -->
-  <li class="exp-item">
-    <div class="exp-header">
-      <div class="exp-title-group">
-        <h4 class="exp-role">
-          GTM Analyst — <a href="https://thebiomebar.com/" target="_blank" rel="noopener noreferrer" class="exp-company">BioMeBar (Healthcare Startup)</a>
-        </h4>
+  {% for exp in site.data.experience %}
+    <li class="exp-item">
+      <div class="exp-header">
+        <div class="exp-title-group">
+          <h4 class="exp-role">
+            {{ exp.role }} — <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" class="exp-company">{{ exp.company }}</a>
+          </h4>
+        </div>
+        {% if exp.logo %}
+          <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ exp.logo | relative_url }}" alt="{{ exp.company }}" class="exp-logo"{% if exp.logo_style %} style="{{ exp.logo_style }}"{% endif %}>
+          </a>
+        {% endif %}
       </div>
-      <a href="https://thebiomebar.com/" target="_blank" rel="noopener noreferrer">
-        <img src="{{ '/assets/img/companies/BioMeBarLogo.png' | relative_url }}" alt="BioMeBar" class="exp-logo" style="filter: invert(1);">
-      </a>
-    </div>
-    <div class="exp-meta">[Jun 2026 – Present] | Healthcare Startup / Hybrid</div>
-    <ul class="exp-highlights">
-      <li>Rebuilt founder-led partner prospecting from manual search into an AI agent system (Claude skills + Google Sheets API), screening 350+ healthcare clinics and generating personalized message-ready leads.</li>
-      <li>Analyzed ad creative from 10+ competitors alongside impression and engagement data from past campaigns, translating patterns into a paid acquisition roadmap for the next quarter.</li>
-      <li>Defined the ICP and 1–10 scoring model across 3 clinical segments (GI/IBS, GLP-1/metabolic, and women’s health) with automated filters eliminating unreachable accounts.</li>
-      <li>Eliminated wrong-contact outreach with a 9-point QA pass re-verifying founder identity, clinical specialty, location, and competitor overlap.</li>
-      <li>Shipped a real-time pipeline dashboard (Cloudflare Pages + Apps Script API) that auto-stages leads and refreshes daily worklists.</li>
-    </ul>
-  </li>
-
-  <!-- RoloScan -->
-  <li class="exp-item">
-    <div class="exp-header">
-      <div class="exp-title-group">
-        <h4 class="exp-role">
-          Product Analyst / GTM — <a href="https://roloscan.com/" target="_blank" rel="noopener noreferrer" class="exp-company">RoloScan (Agentic AI Networking App)</a>
-        </h4>
-      </div>
-      <a href="https://roloscan.com/" target="_blank" rel="noopener noreferrer">
-        <img src="{{ '/assets/img/companies/RoloScanLogo.png' | relative_url }}" alt="RoloScan" class="exp-logo">
-      </a>
-    </div>
-    <div class="exp-meta">[May 2026 – Present] | AI / SaaS</div>
-    <ul class="exp-highlights">
-      <li>Designed user surveys and analyzed qualitative and quantitative engagement signals in Python to uncover an unaddressed high-value customer segment.</li>
-      <li>Built multi-dimensional product usage dashboards tracking user engagement by geographic region, device, and enterprise account affiliation.</li>
-    </ul>
-  </li>
-
-  <!-- Accenture -->
-  <li class="exp-item">
-    <div class="exp-header">
-      <div class="exp-title-group">
-        <h4 class="exp-role">
-          Business Consulting Analyst — <a href="https://www.accenture.com/" target="_blank" rel="noopener noreferrer" class="exp-company">Accenture Strategy &amp; Consulting</a>
-        </h4>
-      </div>
-      <a href="https://www.accenture.com/" target="_blank" rel="noopener noreferrer">
-        <img src="{{ '/assets/img/companies/AccentureLogo.svg' | relative_url }}" alt="Accenture" class="exp-logo">
-      </a>
-    </div>
-    <div class="exp-meta">[Aug 2023 – Jul 2025] | Global / Enterprise</div>
-    <ul class="exp-highlights">
-      <li>Owned SQL-based audience segmentation across 4+ enterprise data sources for 40+ campaigns, targeting 100K+ users globally on Salesforce Marketing Cloud.</li>
-      <li>Redesigned end-to-end campaign launch workflows, cutting time-to-launch from 4 weeks to 2 weeks by standardizing segmentation logic and automating QA pipelines.</li>
-      <li>Built and maintained Power BI KPI dashboards tracking campaign conversion funnels in real time; synthesized findings into executive presentations guiding global targeting priorities.</li>
-      <li>Documented standardized campaign guidelines and mentored 10+ global analysts, reducing execution friction and boosting cross-market delivery consistency.</li>
-    </ul>
-  </li>
-
-  <!-- Ernst & Young (EY) -->
-  <li class="exp-item">
-    <div class="exp-header">
-      <div class="exp-title-group">
-        <h4 class="exp-role">
-          Technology Consulting Intern — <a href="https://www.ey.com/" target="_blank" rel="noopener noreferrer" class="exp-company">Ernst &amp; Young (EY)</a>
-        </h4>
-      </div>
-      <a href="https://www.ey.com/" target="_blank" rel="noopener noreferrer">
-        <img src="{{ '/assets/img/companies/EYLogo.svg' | relative_url }}" alt="EY" class="exp-logo">
-      </a>
-    </div>
-    <div class="exp-meta">[May 2022 – Jul 2022] | San Jose, CA / Remote</div>
-    <ul class="exp-highlights">
-      <li>Led structured competitive analysis across enterprise data privacy platforms, creating a stakeholder comparison framework that directly drove vendor selection.</li>
-      <li>Performed data quality audits across compliance reporting datasets; mapped governance workflows end-to-end to eliminate manual automation gaps.</li>
-    </ul>
-  </li>
-
-  <!-- TCS -->
-  <li class="exp-item">
-    <div class="exp-header">
-      <div class="exp-title-group">
-        <h4 class="exp-role">
-          Software Engineer — <a href="https://www.tcs.com/" target="_blank" rel="noopener noreferrer" class="exp-company">Tata Consultancy Services (TCS)</a>
-        </h4>
-      </div>
-      <a href="https://www.tcs.com/" target="_blank" rel="noopener noreferrer">
-        <img src="{{ '/assets/img/companies/TCSOldLogo.png' | relative_url }}" alt="TCS" class="exp-logo">
-      </a>
-    </div>
-    <div class="exp-meta">[Jul 2019 – Jul 2021] | Enterprise Systems</div>
-    <ul class="exp-highlights">
-      <li>Built and owned 15+ enterprise B2B data integration pipelines using SAP PI/PO, SAP CPI, and Dell Boomi, maintaining data integrity and automated ETL delivery.</li>
-      <li>Designed production monitoring and proactive alerting frameworks, resolving data disruptions to achieve zero-downtime ETL automation across enterprise client systems.</li>
-    </ul>
-  </li>
+      <div class="exp-meta">[{{ exp.date }}] | {{ exp.location }}</div>
+      {% if exp.highlights %}
+        <ul class="exp-highlights">
+          {% for bullet in exp.highlights %}
+            <li>{{ bullet }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </li>
+  {% endfor %}
 </ul>

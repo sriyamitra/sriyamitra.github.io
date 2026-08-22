@@ -1,0 +1,55 @@
+- role: Marketing Analyst
+  company: BioMeBar (Healthcare Startup)
+  url: https://thebiomebar.com/
+  logo: assets/img/companies/BioMeBarLogo.png
+  logo_style: "filter: invert(1);"
+  date: "Jun 2026 – Present"
+  location: "San Francisco, CA"
+  highlights:
+    - "Rebuilt founder-led partner prospecting from manual search into an AI agent system (Claude skills + Google Sheets API), screening 350+ healthcare clinics and generating personalized message-ready leads."
+    - "Analyzed ad creative from 10+ competitors alongside impression and engagement data from past campaigns, translating patterns into a paid acquisition roadmap for the next quarter."
+    - "Defined the ICP and 1–10 scoring model across 3 clinical segments (GI/IBS, GLP-1/metabolic, and women’s health) with automated filters eliminating unreachable accounts."
+    - "Eliminated wrong-contact outreach with a 9-point QA pass re-verifying founder identity, clinical specialty, location, and competitor overlap."
+    - "Shipped a real-time pipeline dashboard (Cloudflare Pages + Apps Script API) that auto-stages leads and refreshes daily worklists."
+
+- role: Product Analyst / GTM
+  company: RoloScan (Agentic AI Networking App)
+  url: https://roloscan.com/
+  logo: assets/img/companies/RoloScanLogo.png
+  date: "May 2026 – Present"
+  location: "San Francisco, CA"
+  highlights:
+    - "Built multi-dimensional product analysis dashboards tracking user engagement by geographic region, device, and enterprise account affiliation."
+    - "Designed and analyzed user surveys through qualitative and quantitative engagement signals using Python to derive actionable product insights."
+
+- role: Business Consulting Analyst
+  company: Accenture Strategy & Consulting
+  url: https://www.accenture.com/
+  logo: assets/img/companies/AccentureLogo.svg
+  date: "Aug 2023 – Jul 2025"
+  location: "Gurugram, India"
+  highlights:
+    - "Owned SQL-based audience segmentation for 40+ data-driven email marketing campaigns, targeting more than 100k global users using Salesforce Marketing Cloud."
+    - "Redesigned end-to-end campaign launch workflows, cutting time-to-launch from 4 weeks to 2 weeks by standardizing segmentation logic and automating QA pipelines."
+    - "Built and maintained Power BI KPI dashboards tracking campaign conversion funnels in real time; synthesized findings into executive presentations guiding global targeting priorities."
+    - "Documented standardized campaign guidelines and mentored 10+ global analysts, reducing execution friction and boosting cross-market delivery consistency."
+
+- role: Technology Consulting Intern
+  company: Ernst & Young (EY)
+  url: https://www.ey.com/
+  logo: assets/img/companies/EYLogo.svg
+  date: "May 2022 – Jul 2022"
+  location: "Gurugram, India"
+  highlights:
+    - "Led structured competitive analysis across enterprise data privacy platforms, creating a stakeholder comparison framework that directly drove vendor selection."
+    - "Performed data quality audits across compliance reporting datasets; mapped governance workflows end-to-end to eliminate manual automation gaps."
+
+- role: Software Engineer
+  company: Tata Consultancy Services (TCS)
+  url: https://www.tcs.com/
+  logo: assets/img/companies/TCSOldLogo.png
+  date: "Jul 2019 – Jul 2021"
+  location: "Gandhinagar, India"
+  highlights:
+    - "Built and owned 15+ enterprise B2B data integration pipelines using SAP PI/PO, SAP CPI, and Dell Boomi, maintaining data integrity and automated ETL delivery."
+    - "Designed production monitoring and proactive alerting frameworks, resolving data disruptions to achieve zero-downtime ETL automation across enterprise client systems."
