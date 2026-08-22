@@ -99,7 +99,7 @@ layout: default
               {% assign news = site.news | reverse %}
               {% for item in news limit: 5 %}
                 <tr>
-                  <th scope="row" style="width: 1%; white-space: nowrap; padding-right: 1.25rem; font-weight: 600;">{{ item.date | date: '%b %Y' }}</th>
+                  <th scope="row" style="width: 1%; white-space: nowrap; padding-right: 2.25rem; font-weight: 600;">{{ item.date | date: '%b %Y' }}</th>
                   <td style="padding-left: 0;">
                     {{ item.content | remove: '<p>' | remove: '</p>' }}
                   </td>
