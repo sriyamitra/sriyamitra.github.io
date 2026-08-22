@@ -42,12 +42,28 @@ nav_order: 2
     font-weight: 400;
     color: var(--global-theme-color);
   }
+  .exp-logo-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border: 1px solid var(--global-divider-color);
+    border-radius: 8px;
+    background-color: var(--global-card-bg-color, rgba(255, 255, 255, 0.05));
+    margin-left: 0.75rem;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+  .exp-logo-container:hover {
+    border-color: var(--global-theme-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
   .exp-logo {
-    max-height: 48px;
-    max-width: 80px;
+    max-height: 38px;
+    max-width: 76px;
     width: auto;
     object-fit: contain;
-    margin-left: 0.75rem;
     opacity: 1;
   }
   .exp-meta {
@@ -78,7 +94,7 @@ nav_order: 2
           </h4>
         </div>
         {% if exp.logo %}
-          <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; flex-shrink: 0;">
+          <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" class="exp-logo-container">
             <img src="{{ exp.logo | relative_url }}" alt="{{ exp.company }}" class="exp-logo"{% if exp.logo_style %} style="{{ exp.logo_style }}"{% endif %}>
           </a>
         {% endif %}
