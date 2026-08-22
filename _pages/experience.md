@@ -73,10 +73,12 @@ nav_order: 2
     <div class="exp-header">
       <div class="exp-title-group">
         <h4 class="exp-role">
-          GTM Analyst — <span class="exp-company">BioMeBar (Healthcare Startup)</span>
+          GTM Analyst — <a href="https://thebiomebar.com/" target="_blank" rel="noopener noreferrer" class="exp-company">BioMeBar (Healthcare Startup)</a>
         </h4>
       </div>
-      <img src="{{ '/assets/img/companies/BioMeBarLogo.png' | relative_url }}" alt="BioMeBar" class="exp-logo" style="filter: invert(1);">
+      <a href="https://thebiomebar.com/" target="_blank" rel="noopener noreferrer">
+        <img src="{{ '/assets/img/companies/BioMeBarLogo.png' | relative_url }}" alt="BioMeBar" class="exp-logo" style="filter: invert(1);">
+      </a>
     </div>
     <div class="exp-meta">[Jun 2026 – Present] | Healthcare Startup / Hybrid</div>
     <ul class="exp-highlights">
@@ -88,15 +90,36 @@ nav_order: 2
     </ul>
   </li>
 
+  <!-- RoloScan -->
+  <li class="exp-item">
+    <div class="exp-header">
+      <div class="exp-title-group">
+        <h4 class="exp-role">
+          Product Analyst / GTM — <a href="https://roloscan.com/" target="_blank" rel="noopener noreferrer" class="exp-company">RoloScan (Agentic AI Networking App)</a>
+        </h4>
+      </div>
+      <a href="https://roloscan.com/" target="_blank" rel="noopener noreferrer">
+        <img src="{{ '/assets/img/companies/RoloScanLogo.png' | relative_url }}" alt="RoloScan" class="exp-logo">
+      </a>
+    </div>
+    <div class="exp-meta">[May 2026 – Present] | AI / SaaS</div>
+    <ul class="exp-highlights">
+      <li>Designed user surveys and analyzed qualitative and quantitative engagement signals in Python to uncover an unaddressed high-value customer segment.</li>
+      <li>Built multi-dimensional product usage dashboards tracking user engagement by geographic region, device, and enterprise account affiliation.</li>
+    </ul>
+  </li>
+
   <!-- Accenture -->
   <li class="exp-item">
     <div class="exp-header">
       <div class="exp-title-group">
         <h4 class="exp-role">
-          Business Consulting Analyst — <span class="exp-company">Accenture Strategy &amp; Consulting</span>
+          Business Consulting Analyst — <a href="https://www.accenture.com/" target="_blank" rel="noopener noreferrer" class="exp-company">Accenture Strategy &amp; Consulting</a>
         </h4>
       </div>
-      <img src="{{ '/assets/img/companies/AccentureLogo.svg' | relative_url }}" alt="Accenture" class="exp-logo">
+      <a href="https://www.accenture.com/" target="_blank" rel="noopener noreferrer">
+        <img src="{{ '/assets/img/companies/AccentureLogo.svg' | relative_url }}" alt="Accenture" class="exp-logo">
+      </a>
     </div>
     <div class="exp-meta">[Aug 2023 – Jul 2025] | Global / Enterprise</div>
     <ul class="exp-highlights">
@@ -112,10 +135,12 @@ nav_order: 2
     <div class="exp-header">
       <div class="exp-title-group">
         <h4 class="exp-role">
-          Technology Consulting Intern — <span class="exp-company">Ernst &amp; Young (EY)</span>
+          Technology Consulting Intern — <a href="https://www.ey.com/" target="_blank" rel="noopener noreferrer" class="exp-company">Ernst &amp; Young (EY)</a>
         </h4>
       </div>
-      <img src="{{ '/assets/img/companies/EYLogo.svg' | relative_url }}" alt="EY" class="exp-logo">
+      <a href="https://www.ey.com/" target="_blank" rel="noopener noreferrer">
+        <img src="{{ '/assets/img/companies/EYLogo.svg' | relative_url }}" alt="EY" class="exp-logo">
+      </a>
     </div>
     <div class="exp-meta">[May 2022 – Jul 2022] | San Jose, CA / Remote</div>
     <ul class="exp-highlights">
@@ -129,10 +154,12 @@ nav_order: 2
     <div class="exp-header">
       <div class="exp-title-group">
         <h4 class="exp-role">
-          System Engineer — <span class="exp-company">Tata Consultancy Services (TCS)</span>
+          System Engineer — <a href="https://www.tcs.com/" target="_blank" rel="noopener noreferrer" class="exp-company">Tata Consultancy Services (TCS)</a>
         </h4>
       </div>
-      <img src="{{ '/assets/img/companies/TCSOldLogo.png' | relative_url }}" alt="TCS" class="exp-logo">
+      <a href="https://www.tcs.com/" target="_blank" rel="noopener noreferrer">
+        <img src="{{ '/assets/img/companies/TCSOldLogo.png' | relative_url }}" alt="TCS" class="exp-logo">
+      </a>
     </div>
     <div class="exp-meta">[Jul 2019 – Jul 2021] | Enterprise Systems</div>
     <ul class="exp-highlights">
