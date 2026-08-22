@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://sriyamitra.github.io/sitemap.xml

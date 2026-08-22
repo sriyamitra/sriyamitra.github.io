@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
+  <style>
+    .ucd {
+      font-family: 'Times New Roman', Times, Georgia, serif;
+      font-weight: 700;
+      font-size: 42px;
+      fill: #022851;
+      letter-spacing: -0.02em;
+    }
+    .gold-bar {
+      fill: #FFBF00;
+    }
+  </style>
+  <text x="5" y="44" class="ucd">UCDAVIS</text>
+  <rect x="5" y="50" width="222" height="4" class="gold-bar" />
+</svg>
