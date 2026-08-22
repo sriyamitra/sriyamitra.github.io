@@ -22,13 +22,14 @@ nav_order: 2
   }
   .exp-header {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 0.85rem;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.75rem;
     margin-bottom: 0.35rem;
   }
   .exp-title-group {
-    flex: 1 1 auto;
+    flex: 1 1 min-content;
   }
   .exp-role {
     font-size: 1.25rem;
@@ -43,9 +44,10 @@ nav_order: 2
   }
   .exp-logo {
     max-height: 48px;
-    max-width: 72px;
+    max-width: 80px;
     width: auto;
     object-fit: contain;
+    margin-left: 0.75rem;
     opacity: 1;
   }
   .exp-meta {
@@ -70,16 +72,16 @@ nav_order: 2
   {% for exp in site.data.experience %}
     <li class="exp-item">
       <div class="exp-header">
-        {% if exp.logo %}
-          <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; flex-shrink: 0;">
-            <img src="{{ exp.logo | relative_url }}" alt="{{ exp.company }}" class="exp-logo"{% if exp.logo_style %} style="{{ exp.logo_style }}"{% endif %}>
-          </a>
-        {% endif %}
         <div class="exp-title-group">
           <h4 class="exp-role">
             {{ exp.role }} — <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" class="exp-company">{{ exp.company }}</a>
           </h4>
         </div>
+        {% if exp.logo %}
+          <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; flex-shrink: 0;">
+            <img src="{{ exp.logo | relative_url }}" alt="{{ exp.company }}" class="exp-logo"{% if exp.logo_style %} style="{{ exp.logo_style }}"{% endif %}>
+          </a>
+        {% endif %}
       </div>
       <div class="exp-meta">[{{ exp.date }}] | {{ exp.location }}</div>
       {% if exp.highlights %}
