@@ -68,7 +68,6 @@ nav_order: 2
   .exp-meta {
     font-size: 0.875rem;
     font-family: monospace;
-    font-weight: 600;
     color: var(--global-text-color-light);
     margin: 0;
   }
