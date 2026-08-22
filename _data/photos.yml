@@ -1,0 +1,11 @@
+- image: assets/img/photos/above-the-clouds.jpg
+  title: "Above the clouds"
+  location: "Marin County, CA"
+
+- image: assets/img/photos/cycling-fort-mason.jpg
+  title: "Cycling around Fort Mason"
+  location: "San Francisco, CA"
+
+- image: assets/img/photos/buena-vista-irish-coffee.jpg
+  title: "Irish coffee at The Buena Vista"
+  location: "San Francisco, CA"
