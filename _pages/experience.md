@@ -32,7 +32,7 @@ nav_order: 2
   }
   .exp-role {
     font-size: 1.25rem;
-    font-weight: 700;
+    font-weight: 400;
     margin: 0 0 0.2rem;
     line-height: 1.3;
     color: var(--global-text-color);
@@ -88,7 +88,7 @@ nav_order: 2
       <div class="exp-header">
         <div class="exp-title-group">
           <h4 class="exp-role">
-            {{ exp.role }} — <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" class="exp-company">{{ exp.company }}</a>
+            {{ exp.role }} @ <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" class="exp-company">{{ exp.company }}</a>
           </h4>
           <div class="exp-meta">[{{ exp.date }}] | {{ exp.location }}</div>
         </div>

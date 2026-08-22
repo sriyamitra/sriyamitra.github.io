@@ -65,12 +65,14 @@ nav_order: 3
   {% for item in site.data.photos %}
     <div class="photo-card">
       <img src="{{ item.image | relative_url }}" alt="{{ item.title }}" data-zoomable loading="lazy">
+      {% comment %}
       {% if item.title or item.location %}
         <div class="photo-caption">
           {% if item.title %}<span class="photo-title">{{ item.title }}</span>{% endif %}
           {% if item.location %}<span class="photo-location">{{ item.location }}</span>{% endif %}
         </div>
       {% endif %}
+      {% endcomment %}
     </div>
   {% endfor %}
 </div>
