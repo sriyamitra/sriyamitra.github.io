@@ -9,3 +9,7 @@
 - image: assets/img/photos/buena-vista-irish-coffee.jpg
   title: "Irish coffee at The Buena Vista"
   location: "San Francisco, CA"
+
+- video: assets/video/sf-sunset.mp4
+  title: "SF Sunset"
+  location: "San Francisco, CA"
