@@ -13,3 +13,7 @@
 - video: assets/video/sf-sunset.mp4
   title: "SF Sunset"
   location: "San Francisco, CA"
+
+- video: assets/video/yosemite.mp4
+  title: "A brand new day: Yosemite edition"
+  location: "Yosemite National Park, CA"
