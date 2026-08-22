@@ -46,9 +46,9 @@ nav_order: 2
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 6px 12px;
+    padding: 10px 18px;
     border: 1px solid var(--global-divider-color);
-    border-radius: 8px;
+    border-radius: 10px;
     background-color: var(--global-card-bg-color, rgba(255, 255, 255, 0.05));
     margin-left: 0.75rem;
     flex-shrink: 0;
