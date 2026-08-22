@@ -1,6 +1,6 @@
 ---
 layout: page
-title: photos
+title: 'photos <i class="fa-solid fa-camera"></i>'
 permalink: /photos/
 nav: true
 nav_order: 3
@@ -67,7 +67,7 @@ nav_order: 3
   {% for item in site.data.photos %}
     <div class="photo-card">
       {% if item.video %}
-        <video src="{{ item.video | relative_url }}" autoplay loop muted playsinline controls></video>
+        <video src="{{ item.video | relative_url }}"{% if item.poster %} poster="{{ item.poster | relative_url }}"{% endif %} autoplay loop muted playsinline controls preload="auto"></video>
       {% else %}
         <img src="{{ item.image | relative_url }}" alt="{{ item.title }}" data-zoomable loading="lazy">
       {% endif %}
