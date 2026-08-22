@@ -23,18 +23,17 @@ nav_order: 2
   .exp-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
+    align-items: center;
     gap: 0.75rem;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.6rem;
   }
   .exp-title-group {
-    flex: 1 1 min-content;
+    flex: 1 1 auto;
   }
   .exp-role {
     font-size: 1.25rem;
     font-weight: 700;
-    margin: 0;
+    margin: 0 0 0.2rem;
     line-height: 1.3;
     color: var(--global-text-color);
   }
@@ -71,7 +70,7 @@ nav_order: 2
     font-family: monospace;
     font-weight: 600;
     color: var(--global-text-color-light);
-    margin-bottom: 0.75rem;
+    margin: 0;
   }
   .exp-highlights {
     margin-top: 0.5rem;
@@ -92,6 +91,7 @@ nav_order: 2
           <h4 class="exp-role">
             {{ exp.role }} — <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" class="exp-company">{{ exp.company }}</a>
           </h4>
+          <div class="exp-meta">[{{ exp.date }}] | {{ exp.location }}</div>
         </div>
         {% if exp.logo %}
           <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" class="exp-logo-container">
@@ -99,7 +99,6 @@ nav_order: 2
           </a>
         {% endif %}
       </div>
-      <div class="exp-meta">[{{ exp.date }}] | {{ exp.location }}</div>
       {% if exp.highlights %}
         <ul class="exp-highlights">
           {% for bullet in exp.highlights %}
