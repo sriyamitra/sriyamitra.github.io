@@ -42,11 +42,11 @@ nav_order: 2
     color: var(--global-theme-color);
   }
   .exp-logo {
-    max-height: 32px;
-    max-width: 48px;
+    max-height: 48px;
+    max-width: 72px;
     width: auto;
     object-fit: contain;
-    opacity: 0.95;
+    opacity: 1;
   }
   .exp-meta {
     font-size: 0.875rem;
