@@ -87,10 +87,10 @@ layout: default
       </div>
     </div>
 
-    <!-- News -->
+    <!-- News / Updates -->
     {% if page.announcements and page.announcements.enabled %}
       <h2>
-        <a href="{{ '/news/' | relative_url }}" style="color: inherit">news</a>
+        <a href="{{ '/news/' | relative_url }}" style="color: inherit">updates</a>
       </h2>
       <div class="news">
         {% if site.news != blank %}
@@ -99,8 +99,8 @@ layout: default
               {% assign news = site.news | reverse %}
               {% for item in news limit: 5 %}
                 <tr>
-                  <th scope="row" style="width: 20%; white-space: nowrap;">{{ item.date | date: '%b %Y' }}</th>
-                  <td>
+                  <th scope="row" style="width: 1%; white-space: nowrap; padding-right: 1.25rem; font-weight: 600;">{{ item.date | date: '%b %Y' }}</th>
+                  <td style="padding-left: 0;">
                     {{ item.content | remove: '<p>' | remove: '</p>' }}
                   </td>
                 </tr>
