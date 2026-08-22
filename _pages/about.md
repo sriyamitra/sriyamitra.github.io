@@ -15,7 +15,7 @@ selected_papers: false # set to true when you add papers marked as "selected={tr
 social: true # includes social icons at the bottom of the page
 
 announcements:
-  enabled: false # set to true to include news announcements from _news/
+  enabled: true # set to true to include news announcements from _news/
   scrollable: true
   limit: 5
 
