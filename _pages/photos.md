@@ -27,7 +27,8 @@ nav_order: 3
     transition: transform 0.25s ease;
   }
 
-  .photo-card img {
+  .photo-card img,
+  .photo-card video {
     width: 100%;
     height: auto;
     display: block;
@@ -36,7 +37,8 @@ nav_order: 3
     transition: box-shadow 0.25s ease, transform 0.25s ease;
   }
 
-  .photo-card:hover img {
+  .photo-card:hover img,
+  .photo-card:hover video {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
 
@@ -64,7 +66,11 @@ nav_order: 3
 <div class="photo-collage">
   {% for item in site.data.photos %}
     <div class="photo-card">
-      <img src="{{ item.image | relative_url }}" alt="{{ item.title }}" data-zoomable loading="lazy">
+      {% if item.video %}
+        <video src="{{ item.video | relative_url }}" autoplay loop muted playsinline controls></video>
+      {% else %}
+        <img src="{{ item.image | relative_url }}" alt="{{ item.title }}" data-zoomable loading="lazy">
+      {% endif %}
       {% comment %}
       {% if item.title or item.location %}
         <div class="photo-caption">
