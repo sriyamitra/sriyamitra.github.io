@@ -38,7 +38,7 @@ layout: default
         <!-- Social beneath profile picture -->
         {% if page.social %}
           <div class="social" style="margin-top: 0.75rem; text-align: center;">
-            <div class="contact-icons">{% social_links %}</div>
+            <div class="contact-icons" style="display: flex; justify-content: center; align-items: center; gap: 0.75rem; font-size: 1.5rem;">{% social_links %}</div>
             {% if site.contact_note %}
               <div class="contact-note" style="margin-top: 0.25rem;">{{ site.contact_note }}</div>
             {% endif %}
@@ -58,30 +58,31 @@ layout: default
       .hero__companies-logos .company-logo:hover {
         filter: grayscale(0%);
         opacity: 1;
+        transform: scale(1.05);
       }
     </style>
-    <div class="hero__companies" style="margin-top: 1.5rem;">
-      <div class="hero__companies-logos">
-        <a href="https://thebiomebar.com/" target="_blank" rel="noopener noreferrer">
-          <img src="{{ '/assets/img/companies/BioMeBarLogo.png' | relative_url }}" alt="BioMeBar" class="company-logo" style="height: 44px; filter: invert(1) grayscale(100%);">
+    <div class="hero__companies" style="margin-top: 2rem; margin-bottom: 2.5rem; text-align: center;">
+      <div class="hero__companies-logos" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 2rem;">
+        <a href="https://thebiomebar.com/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
+          <img src="{{ '/assets/img/companies/BioMeBarLogo.png' | relative_url }}" alt="BioMeBar" class="company-logo" style="height: 44px; width: auto; object-fit: contain; filter: invert(1) grayscale(100%); opacity: 0.75;">
         </a>
-        <a href="https://roloscan.com/" target="_blank" rel="noopener noreferrer">
-          <img src="{{ '/assets/img/companies/RoloScanLogo.png' | relative_url }}" alt="RoloScan" class="company-logo" style="height: 28px;">
+        <a href="https://roloscan.com/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
+          <img src="{{ '/assets/img/companies/RoloScanLogo.png' | relative_url }}" alt="RoloScan" class="company-logo" style="height: 28px; width: auto; object-fit: contain; filter: grayscale(100%); opacity: 0.75;">
         </a>
-        <a href="https://gsm.ucdavis.edu/" target="_blank" rel="noopener noreferrer">
-          <img src="{{ '/assets/img/companies/UCDavisLogo.png' | relative_url }}" alt="UC Davis" class="company-logo" style="height: 60px;">
+        <a href="https://gsm.ucdavis.edu/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
+          <img src="{{ '/assets/img/companies/UCDavisLogo.png' | relative_url }}" alt="UC Davis" class="company-logo" style="height: 60px; width: auto; object-fit: contain; filter: grayscale(100%); opacity: 0.75;">
         </a>
-        <a href="https://www.accenture.com/" target="_blank" rel="noopener noreferrer">
-          <img src="{{ '/assets/img/companies/AccentureLogo.svg' | relative_url }}" alt="Accenture" class="company-logo" style="height: 26px; position: relative; top: -6px;">
+        <a href="https://www.accenture.com/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
+          <img src="{{ '/assets/img/companies/AccentureLogo.svg' | relative_url }}" alt="Accenture" class="company-logo" style="height: 26px; width: auto; object-fit: contain; position: relative; top: -6px; filter: grayscale(100%); opacity: 0.75;">
         </a>
-        <a href="https://www.ey.com/" target="_blank" rel="noopener noreferrer">
-          <img src="{{ '/assets/img/companies/EYLogo.svg' | relative_url }}" alt="EY" class="company-logo" style="height: 30px; position: relative; top: -7px;">
+        <a href="https://www.ey.com/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
+          <img src="{{ '/assets/img/companies/EYLogo.svg' | relative_url }}" alt="EY" class="company-logo" style="height: 30px; width: auto; object-fit: contain; position: relative; top: -7px; filter: grayscale(100%); opacity: 0.75;">
         </a>
-        <a href="https://www.sidtm.edu.in/" target="_blank" rel="noopener noreferrer">
-          <img src="{{ '/assets/img/companies/SIULogo.png' | relative_url }}" alt="Symbiosis International University" class="company-logo" style="height: 30px;">
+        <a href="https://www.sidtm.edu.in/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
+          <img src="{{ '/assets/img/companies/SIULogo.png' | relative_url }}" alt="Symbiosis International University" class="company-logo" style="height: 30px; width: auto; object-fit: contain; filter: grayscale(100%); opacity: 0.75;">
         </a>
-        <a href="https://www.tcs.com/" target="_blank" rel="noopener noreferrer">
-          <img src="{{ '/assets/img/companies/TCSOldLogo.png' | relative_url }}" alt="TCS" class="company-logo" style="height: 36px;">
+        <a href="https://www.tcs.com/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
+          <img src="{{ '/assets/img/companies/TCSOldLogo.png' | relative_url }}" alt="TCS" class="company-logo" style="height: 36px; width: auto; object-fit: contain; filter: grayscale(100%); opacity: 0.75;">
         </a>
       </div>
     </div>
