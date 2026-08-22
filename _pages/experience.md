@@ -154,7 +154,7 @@ nav_order: 2
     <div class="exp-header">
       <div class="exp-title-group">
         <h4 class="exp-role">
-          System Engineer — <a href="https://www.tcs.com/" target="_blank" rel="noopener noreferrer" class="exp-company">Tata Consultancy Services (TCS)</a>
+          Software Engineer — <a href="https://www.tcs.com/" target="_blank" rel="noopener noreferrer" class="exp-company">Tata Consultancy Services (TCS)</a>
         </h4>
       </div>
       <a href="https://www.tcs.com/" target="_blank" rel="noopener noreferrer">
