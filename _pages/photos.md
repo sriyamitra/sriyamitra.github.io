@@ -1,10 +1,14 @@
 ---
 layout: page
-title: 'photos <i class="fa-solid fa-camera"></i>'
+title: '<i class="fa-regular fa-camera"></i>'
 permalink: /photos/
 nav: true
 nav_order: 3
 ---
+
+<script>
+  document.title = "photos | " + (document.title.includes("|") ? document.title.split("|").slice(1).join("|").trim() : "{{ site.title }}");
+</script>
 
 <style>
   .photo-collage {
