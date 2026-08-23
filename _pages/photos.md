@@ -18,7 +18,7 @@ nav_order: 3
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
-    padding: 0 4rem;
+    padding: 0 6rem;
     box-sizing: border-box;
     column-count: 4;
     column-gap: 1rem;
@@ -28,7 +28,7 @@ nav_order: 3
   @media (min-width: 1500px) {
     .photo-collage {
       column-count: 5;
-      padding: 0 6rem;
+      padding: 0 8.5rem;
       column-gap: 1.25rem;
     }
   }
@@ -36,7 +36,7 @@ nav_order: 3
   @media (max-width: 1100px) {
     .photo-collage {
       column-count: 3;
-      padding: 0 2.5rem;
+      padding: 0 3.75rem;
       column-gap: 0.85rem;
     }
   }
@@ -44,7 +44,7 @@ nav_order: 3
   @media (max-width: 768px) {
     .photo-collage {
       column-count: 2;
-      padding: 0 1.25rem;
+      padding: 0 2rem;
       column-gap: 0.75rem;
     }
   }
@@ -52,7 +52,7 @@ nav_order: 3
   @media (max-width: 480px) {
     .photo-collage {
       column-count: 1;
-      padding: 0 1rem;
+      padding: 0 1.5rem;
     }
   }
 
