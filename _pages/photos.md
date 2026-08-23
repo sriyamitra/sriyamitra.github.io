@@ -12,14 +12,38 @@ nav_order: 3
 
 <style>
   .photo-collage {
-    column-count: 2;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    padding: 0 2rem;
+    box-sizing: border-box;
+    column-count: 3;
     column-gap: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
   }
 
-  @media (max-width: 768px) {
+  @media (min-width: 1400px) {
+    .photo-collage {
+      column-count: 4;
+      padding: 0 3rem;
+      column-gap: 1.75rem;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .photo-collage {
+      column-count: 2;
+      padding: 0 1.5rem;
+    }
+  }
+
+  @media (max-width: 576px) {
     .photo-collage {
       column-count: 1;
+      padding: 0 1rem;
     }
   }
 
