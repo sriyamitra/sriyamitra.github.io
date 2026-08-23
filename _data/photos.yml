@@ -51,3 +51,35 @@
 - image: assets/img/photos/book-under-my-skin.jpg
   title: "I've Got You Under My Skin"
   location: "FooBoo"
+
+- image: assets/img/photos/eat-a-brownie.jpg
+  title: "Feeling down, eat a brownie"
+  location: "FooBoo"
+
+- image: assets/img/photos/healthy-breakfast.jpg
+  title: "Sunday Healthy Breakfast"
+  location: "FooBoo"
+
+- image: assets/img/photos/sponsored-by-coffee.jpg
+  title: "Good mood sponsored by coffee"
+  location: "FooBoo"
+
+- image: assets/img/photos/coffee-by-us-part2.jpg
+  title: "Coffee By Us - Waffles"
+  location: "FooBoo"
+
+- image: assets/img/photos/stay-in-read.jpg
+  title: "Stay In & Read"
+  location: "FooBoo"
+
+- image: assets/img/photos/coffee-by-us-part3.jpg
+  title: "Coffee By Us - Ambiance"
+  location: "FooBoo"
+
+- image: assets/img/photos/tteokbokki-part2.jpg
+  title: "Tteokbokki Quote"
+  location: "FooBoo"
+
+- image: assets/img/photos/tteokbokki-part3.jpg
+  title: "Tteokbokki Chapter"
+  location: "FooBoo"
