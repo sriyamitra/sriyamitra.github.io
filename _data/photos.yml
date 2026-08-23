@@ -27,3 +27,27 @@
 - image: assets/img/photos/book-coffee-gets-cold.jpg
   title: "Before the Coffee Gets Cold"
   location: "FooBoo"
+
+- image: assets/img/photos/book-midnight-library.jpg
+  title: "The Midnight Library by Matt Haig"
+  location: "FooBoo"
+
+- image: assets/img/photos/rainy-coffee.jpg
+  title: "Rainy Weather & Coffee"
+  location: "FooBoo"
+
+- image: assets/img/photos/pizookie.jpg
+  title: "Pizookie"
+  location: "FooBoo"
+
+- image: assets/img/photos/pink-chocolate.jpg
+  title: "Pink Chocolate & Strawberry Shake"
+  location: "FooBoo"
+
+- image: assets/img/photos/coffee-by-us.jpg
+  title: "Coffee By Us Cafe"
+  location: "FooBoo"
+
+- image: assets/img/photos/book-under-my-skin.jpg
+  title: "I've Got You Under My Skin"
+  location: "FooBoo"
