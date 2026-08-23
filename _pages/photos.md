@@ -18,29 +18,38 @@ nav_order: 3
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
-    padding: 0 2rem;
+    padding: 0 4rem;
     box-sizing: border-box;
-    column-count: 3;
-    column-gap: 1.5rem;
-    margin-top: 1.5rem;
+    column-count: 4;
+    column-gap: 1rem;
+    margin-top: 1rem;
   }
 
-  @media (min-width: 1400px) {
+  @media (min-width: 1500px) {
     .photo-collage {
-      column-count: 4;
-      padding: 0 3rem;
-      column-gap: 1.75rem;
+      column-count: 5;
+      padding: 0 6rem;
+      column-gap: 1.25rem;
     }
   }
 
-  @media (max-width: 992px) {
+  @media (max-width: 1100px) {
+    .photo-collage {
+      column-count: 3;
+      padding: 0 2.5rem;
+      column-gap: 0.85rem;
+    }
+  }
+
+  @media (max-width: 768px) {
     .photo-collage {
       column-count: 2;
-      padding: 0 1.5rem;
+      padding: 0 1.25rem;
+      column-gap: 0.75rem;
     }
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: 480px) {
     .photo-collage {
       column-count: 1;
       padding: 0 1rem;
@@ -49,7 +58,7 @@ nav_order: 3
 
   .photo-card {
     break-inside: avoid;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     display: inline-block;
     width: 100%;
     transition: transform 0.25s ease;
@@ -60,8 +69,8 @@ nav_order: 3
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: box-shadow 0.25s ease, transform 0.25s ease;
   }
 
