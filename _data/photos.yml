@@ -2,82 +2,54 @@
   title: "Above the clouds"
   location: "Marin County, CA"
 
-- image: assets/img/photos/cycling-fort-mason.jpg
-  title: "Cycling around Fort Mason"
-  location: "San Francisco, CA"
-
-- image: assets/img/photos/buena-vista-irish-coffee.jpg
-  title: "Irish coffee at The Buena Vista"
-  location: "San Francisco, CA"
-
-- video: assets/video/sf-sunset.mp4
-  poster: assets/video/sf-sunset-poster.jpg
-  title: "SF Sunset"
-  location: "San Francisco, CA"
+- image: assets/img/photos/book-coffee-gets-cold.jpg
+  title: "Before the Coffee Gets Cold"
+  location: "FooBoo"
 
 - video: assets/video/yosemite.mp4
   poster: assets/video/yosemite-poster.jpg
   title: "A brand new day: Yosemite edition"
   location: "Yosemite National Park, CA"
 
-- image: assets/img/photos/book-tteokbokki.jpg
-  title: "I want to die but I want to eat tteokbokki"
+- image: assets/img/photos/healthy-breakfast.jpg
+  title: "Sunday Healthy Breakfast"
   location: "FooBoo"
 
-- image: assets/img/photos/book-coffee-gets-cold.jpg
-  title: "Before the Coffee Gets Cold"
-  location: "FooBoo"
+- image: assets/img/photos/buena-vista-irish-coffee.jpg
+  title: "Irish coffee at The Buena Vista"
+  location: "San Francisco, CA"
 
 - image: assets/img/photos/book-midnight-library.jpg
   title: "The Midnight Library by Matt Haig"
   location: "FooBoo"
 
+- video: assets/video/sf-sunset.mp4
+  poster: assets/video/sf-sunset-poster.jpg
+  title: "SF Sunset"
+  location: "San Francisco, CA"
+
+- image: assets/img/photos/tteokbokki-part2.jpg
+  title: "Tteokbokki Quote"
+  location: "FooBoo"
+
+- image: assets/img/photos/cycling-fort-mason.jpg
+  title: "Cycling around Fort Mason"
+  location: "San Francisco, CA"
+
 - image: assets/img/photos/rainy-coffee.jpg
   title: "Rainy Weather & Coffee"
   location: "FooBoo"
 
-- image: assets/img/photos/pizookie.jpg
-  title: "Pizookie"
-  location: "FooBoo"
-
-- image: assets/img/photos/pink-chocolate.jpg
-  title: "Pink Chocolate & Strawberry Shake"
-  location: "FooBoo"
-
-- image: assets/img/photos/coffee-by-us.jpg
-  title: "Coffee By Us Cafe"
-  location: "FooBoo"
-
-- image: assets/img/photos/book-under-my-skin.jpg
-  title: "I've Got You Under My Skin"
-  location: "FooBoo"
-
-- image: assets/img/photos/eat-a-brownie.jpg
-  title: "Feeling down, eat a brownie"
-  location: "FooBoo"
-
-- image: assets/img/photos/healthy-breakfast.jpg
-  title: "Sunday Healthy Breakfast"
+- image: assets/img/photos/book-tteokbokki.jpg
+  title: "I want to die but I want to eat tteokbokki"
   location: "FooBoo"
 
 - image: assets/img/photos/sponsored-by-coffee.jpg
   title: "Good mood sponsored by coffee"
   location: "FooBoo"
 
-- image: assets/img/photos/coffee-by-us-part2.jpg
-  title: "Coffee By Us - Waffles"
-  location: "FooBoo"
-
-- image: assets/img/photos/stay-in-read.jpg
-  title: "Stay In & Read"
-  location: "FooBoo"
-
-- image: assets/img/photos/coffee-by-us-part3.jpg
-  title: "Coffee By Us - Ambiance"
-  location: "FooBoo"
-
-- image: assets/img/photos/tteokbokki-part2.jpg
-  title: "Tteokbokki Quote"
+- image: assets/img/photos/book-under-my-skin.jpg
+  title: "I've Got You Under My Skin"
   location: "FooBoo"
 
 - image: assets/img/photos/tteokbokki-part3.jpg

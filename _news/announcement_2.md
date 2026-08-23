@@ -1,7 +1,7 @@
 ---
 layout: post
-date: 2026-06-10
+date: 2026-08-15
 inline: true
 ---
 
-Graduated with MS in Business Analytics from **UC Davis Graduate School of Management**.
+🎓 Graduated with MS in Business Analytics from **UC Davis**.

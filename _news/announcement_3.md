@@ -1,7 +1,7 @@
 ---
 layout: post
-date: 2026-05-01
+date: 2025-09-15
 inline: true
 ---
 
-Driving product and GTM analytics initiatives for [RoloScan](https://roloscan.com/).
+Driving product analytics initiatives at [RoloScan](https://roloscan.com/).

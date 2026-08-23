@@ -46,7 +46,7 @@ nav_order: 2
     align-items: center;
     justify-content: center;
     padding: 10px 18px;
-    border: 1px solid var(--global-divider-color);
+    border: 0.8px solid rgba(128, 128, 128, 0.16);
     border-radius: 10px;
     background-color: var(--global-card-bg-color, rgba(255, 255, 255, 0.05));
     margin-left: 0.75rem;
@@ -90,7 +90,7 @@ nav_order: 2
           <h4 class="exp-role">
             {{ exp.role }} @ <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" class="exp-company">{{ exp.company }}</a>
           </h4>
-          <div class="exp-meta">[{{ exp.date }}] | {{ exp.location }}</div>
+          <div class="exp-meta">{{ exp.date }} | {{ exp.location }}</div>
         </div>
         {% if exp.logo %}
           <a href="{{ exp.url }}" target="_blank" rel="noopener noreferrer" class="exp-logo-container">

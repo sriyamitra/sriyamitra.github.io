@@ -98,6 +98,12 @@ nav_order: 3
     font-family: monospace;
     font-size: 0.75rem;
   }
+
+  .photo-card img {
+    pointer-events: none;
+    user-select: none;
+    cursor: default;
+  }
 </style>
 
 <div class="photo-collage">
@@ -106,7 +112,7 @@ nav_order: 3
       {% if item.video %}
         <video src="{{ item.video | relative_url }}"{% if item.poster %} poster="{{ item.poster | relative_url }}"{% endif %} autoplay loop muted playsinline controls preload="auto"></video>
       {% else %}
-        <img src="{{ item.image | relative_url }}" alt="{{ item.title }}" data-zoomable loading="lazy">
+        <img src="{{ item.image | relative_url }}" alt="{{ item.title }}" loading="lazy">
       {% endif %}
       {% comment %}
       {% if item.title or item.location %}
@@ -119,3 +125,16 @@ nav_order: 3
     </div>
   {% endfor %}
 </div>
+
+<script>
+  (function() {
+    // Dynamic Shuffle on page load
+    const container = document.querySelector('.photo-collage');
+    if (container) {
+      for (let i = container.children.length; i >= 0; i--) {
+        const item = container.children[Math.random() * i | 0];
+        if (item) container.appendChild(item);
+      }
+    }
+  })();
+</script>
