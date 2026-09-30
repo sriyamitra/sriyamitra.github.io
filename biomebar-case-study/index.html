@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Lead Prospecting Engine</title>
+<meta name="description" content="How I built an AI-powered lead prospecting engine for BioMeBar, taking cold outreach reply rates from 10% to 37%.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  /* Palette: Rose quartz evening */
+  :root {
+    --wine: #64242f;
+    --brick: #b44446;
+    --rose: #fc8f8f;
+    --quartz: #dfd9d8;
+
+    --bg: #faf6f5;
+    --surface: #ffffff;
+    --ink: #2b1a1d;
+    --muted: #6f5d60;
+    --line: #ebe3e2;
+    --accent: var(--brick);
+    --accent-soft: #fdeaea;
+    --nav-h: 56px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Top navigation + reading progress ---------- */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 246, 245, 0.82);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(235, 227, 226, 0.7);
+  }
+  .topnav-inner {
+    max-width: 1040px;
+    margin: 0 auto;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 20px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .brand img { height: 16px; width: auto; display: block; }
+  .brand .sep { width: 1px; height: 12px; background: var(--quartz); }
+  .topnav ul {
+    list-style: none;
+    margin: 0 0 0 auto;
+    padding: 0;
+    display: flex;
+    gap: 22px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .topnav ul::-webkit-scrollbar { display: none; }
+  .topnav a.link {
+    position: relative;
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 0;
+    white-space: nowrap;
+    transition: color 0.2s;
+  }
+  .topnav a.link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 4px;
+    height: 4px;
+    margin-left: -2px;
+    border-radius: 50%;
+    background: var(--brick);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .topnav a.link:hover { color: var(--wine); }
+  .topnav a.link.active { color: var(--wine); font-weight: 500; }
+  .topnav a.link.active::after { opacity: 1; }
+
+  .progress {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 2px;
+    width: 100%;
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, var(--wine), var(--brick) 55%, var(--rose));
+  }
+
+  .article {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 20px 96px;
+  }
+
+  /* ---------- Header ---------- */
+  .header { text-align: center; }
+
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(30px, 4.6vw, 42px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--wine);
+    margin: 0 auto 20px;
+    text-wrap: balance;
+  }
+
+  .lede {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 580px;
+    margin: 0 auto;
+    text-wrap: pretty;
+  }
+
+  /* ---------- Hero: hands that meet on scroll ---------- */
+  .hero { margin: 48px 0 8px; }
+  .hands {
+    position: relative;
+    aspect-ratio: 933 / 525;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #dcdcdc;
+    box-shadow: 0 16px 44px -20px rgba(100, 36, 47, 0.45);
+  }
+  /* a 1px slice of the photo's backdrop, stretched to fill the gap between the halves */
+  .hands .plate {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .hands img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    will-change: transform;
+  }
+  .hands .robot { clip-path: inset(0 51.71% 0 0); }
+  .hands .human { clip-path: inset(0 0 0 48.29%); }
+  .spark {
+    position: absolute;
+    left: 48.29%;
+    top: 40.4%;
+    width: 64px;
+    height: 64px;
+    margin: -32px 0 0 -32px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 8%, rgba(252, 143, 143, 0.7) 22%, rgba(252, 143, 143, 0) 70%);
+    opacity: 0;
+    transform: scale(0.3);
+    pointer-events: none;
+  }
+  .hands.touched .spark { animation: spark 1.6s ease-out forwards; }
+  @keyframes spark {
+    0%   { opacity: 0; transform: scale(0.3); }
+    25%  { opacity: 1; transform: scale(1.3); }
+    100% { opacity: 0.55; transform: scale(0.9); }
+  }
+
+  /* ---------- Sections ---------- */
+  section {
+    margin-top: 72px;
+    scroll-margin-top: calc(var(--nav-h) + 24px);
+  }
+
+  .section-num {
+    display: block;
+    text-align: center;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--brick);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(25px, 3.6vw, 31px);
+    line-height: 1.25;
+    text-align: center;
+    color: var(--wine);
+    margin: 0 0 28px;
+    text-wrap: balance;
+  }
+  h2::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--brick), var(--rose));
+    margin: 16px auto 0;
+  }
+
+  p { margin: 0 0 20px; text-wrap: pretty; }
+  strong { font-weight: 600; }
+
+  /* ---------- Figures ---------- */
+  figure { margin: 36px 0; text-align: center; }
+  figure img { max-width: 100%; height: auto; }
+  figcaption {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 12px;
+  }
+  .figure-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .fabe img { width: 100%; max-width: 600px; }
+
+  /* Emotion wheel: turns a little as you scroll, spins clockwise on hover */
+  .wheel-spin {
+    display: inline-block;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.4s ease, filter 0.4s ease;
+  }
+  .wheel-scroll { transition: transform 0.25s ease-out; }
+  .wheel-spin img {
+    display: block;
+    width: 100%;
+    clip-path: circle(48.6% at 50% 49.8%);
+    transform-origin: 50% 49.8%;
+    animation: spin 14s linear infinite;
+    animation-play-state: paused;
+  }
+  .wheel-scroll { transform-origin: 50% 49.8%; }
+  .wheel-spin:hover,
+  .wheel-spin.spinning {
+    transform: scale(1.03);
+    filter: drop-shadow(0 12px 24px rgba(100, 36, 47, 0.18));
+  }
+  .wheel-spin:hover img,
+  .wheel-spin.spinning img { animation-play-state: running; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Mystery shopper aside */
+  .aside {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin: 28px 0;
+  }
+  .aside img { width: 72px; height: auto; flex-shrink: 0; }
+  .aside p { margin: 0; }
+
+  /* Inline logo */
+  .inline-logo {
+    height: 1.35em;
+    width: auto;
+    vertical-align: -0.35em;
+    margin: 0 2px;
+  }
+
+  /* Issue tiles: revealed one by one on scroll */
+  .issues {
+    list-style: none;
+    padding: 0;
+    margin: 28px 0;
+    display: grid;
+    gap: 12px;
+  }
+  .issues li {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--brick);
+    border-radius: 10px;
+    padding: 14px 18px;
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .js .issues li { opacity: 0; transform: translateX(-40px); }
+  .js .issues li.in { opacity: 1; transform: none; }
+  .issues strong { display: block; margin-bottom: 2px; color: var(--wine); }
+
+  /* Pull quote */
+  .pull {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 23px;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--brick);
+    margin: 40px auto;
+    max-width: 560px;
+    text-wrap: balance;
+  }
+  .pull::before, .pull::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 1px;
+    background: var(--quartz);
+    margin: 0 auto 18px;
+  }
+  .pull::after { margin: 18px auto 0; }
+
+  /* Code box: a markdown file */
+  .code-box {
+    background: #0b0b0c;
+    color: #e8e6e6;
+    border: 1px solid #1f1f22;
+    border-radius: 12px;
+    margin: 28px 0;
+    overflow: hidden;
+    text-align: left;
+    box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.75);
+  }
+  .code-box .bar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 14px;
+    height: 40px;
+    background: #161618;
+    border-bottom: 1px solid #242428;
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-size: 12px;
+    color: #9a9aa0;
+  }
+  .code-box .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .code-box .dot:nth-child(1) { background: #ff5f57; }
+  .code-box .dot:nth-child(2) { background: #febc2e; }
+  .code-box .dot:nth-child(3) { background: #28c840; }
+  .code-box .tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    margin-left: 14px;
+    padding: 0 14px;
+    background: #0b0b0c;
+    border-left: 1px solid #242428;
+    border-right: 1px solid #242428;
+    color: #e8e6e6;
+    position: relative;
+    top: 1px;
+  }
+  .code-box .md-badge {
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #0b0b0c;
+    background: #9a9aa0;
+    border-radius: 3px;
+    padding: 1px 4px;
+  }
+  .code-box ol {
+    list-style: none;
+    margin: 0;
+    padding: 18px 0 20px;
+    counter-reset: ln;
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-size: 14px;
+    line-height: 1.85;
+  }
+  .code-box li {
+    counter-increment: ln;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    padding-right: 20px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    min-height: 1.85em;
+  }
+  .code-box li::before {
+    content: counter(ln);
+    text-align: right;
+    padding-right: 18px;
+    color: #4a4a50;
+    user-select: none;
+  }
+
+  /* Checklist */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 28px;
+    display: grid;
+    gap: 10px;
+  }
+  .checklist li {
+    position: relative;
+    padding-left: 34px;
+  }
+  .checklist li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--brick);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 22px;
+    text-align: center;
+  }
+
+  /* Pipeline */
+  .pipeline {
+    list-style: none;
+    padding: 0;
+    margin: 32px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px 0;
+  }
+  .pipeline li {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .pipeline li span {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 7px 14px;
+    white-space: nowrap;
+  }
+  .pipeline li:not(:last-child)::after {
+    content: "→";
+    color: var(--brick);
+    margin: 0 8px;
+    font-weight: 600;
+  }
+  .pipeline li:last-child span {
+    background: var(--wine);
+    border-color: var(--wine);
+    color: #fff;
+  }
+
+  /* Stat: animated 10% → 37% */
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 32px 28px;
+    margin: 8px 0 32px;
+    text-align: center;
+  }
+  .stat-nums {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+  }
+  .stat .num {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: clamp(44px, 8vw, 64px);
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat .before .num { color: #a8999b; }
+  .stat .after .num { color: var(--brick); }
+  .stat .label {
+    font-size: 13px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+  }
+  .stat .arrow { font-size: 32px; color: var(--brick); }
+
+  .closing {
+    text-align: center;
+    font-size: 19px;
+    margin-top: 32px;
+  }
+  .closing strong { color: var(--brick); }
+
+  @media (max-width: 960px) {
+    .brand { display: none; }
+    .topnav ul {
+      margin: 0 auto;
+      -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+      mask-image: linear-gradient(90deg, #000 88%, transparent);
+    }
+  }
+
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .article { padding: 40px 16px 72px; }
+    .topnav-inner { padding: 0 12px; }
+    section { margin-top: 56px; }
+    .aside { flex-direction: column; text-align: center; }
+    .figure-card { padding: 16px; }
+    .stat { padding: 24px 16px 20px; }
+    .stat-nums { gap: 16px; }
+    .pull { font-size: 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .wheel-spin img { animation: none; }
+    .wheel-scroll { transition: none; }
+    .js .issues li { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="Article sections">
+  <div class="topnav-inner">
+    <a class="brand" href="#top"><img src="images/biomebar-logo.png" alt="BioMeBar"><span class="sep" aria-hidden="true"></span>Case Study</a>
+    <ul>
+      <li><a class="link" href="#product-fit">Product fit</a></li>
+      <li><a class="link" href="#right-leads">Right leads</a></li>
+      <li><a class="link" href="#qa-layer">QA layer</a></li>
+      <li><a class="link" href="#personalisation">Personalisation</a></li>
+      <li><a class="link" href="#outreach">Outreach engine</a></li>
+      <li><a class="link" href="#result">Result</a></li>
+      <li><a class="link" href="#learnings">Learnings</a></li>
+    </ul>
+  </div>
+  <div class="progress" aria-hidden="true"></div>
+</nav>
+
+<article class="article" id="top">
+
+  <header class="header">
+    <h1>How I Built an AI&#8209;Powered Lead Prospecting Engine for BioMeBar</h1>
+    <p class="lede">Building a lead prospecting engine sounds straightforward: identify companies that could be a good fit, find the right person, and reach out. In practice, each of these steps had its own challenges. Here's how I approached them and what I learned along the way.</p>
+    <figure class="hero">
+      <div class="hands" role="img" aria-label="A robotic hand and a human hand reaching toward each other">
+        <canvas class="plate" width="1" height="525"></canvas>
+        <img class="robot" src="images/image3.png" alt="">
+        <img class="human" src="images/image3.png" alt="">
+        <span class="spark"></span>
+      </div>
+    </figure>
+  </header>
+
+  <section id="product-fit">
+    <span class="section-num">01</span>
+    <h2>Start with Product-Market Fit</h2>
+    <p>Before selling our moat and USP, we needed to be clear on what made BioMeBar different and whether that differentiation still held up.</p>
+    <p>We conducted a competitive analysis and documented product features in a <strong>Feature Advantage Benefit Evidence</strong> format. This helped us understand how competitors had evolved, identify new competitors, and sharpen how we positioned BioMeBar to prospective partners and customers.</p>
+
+    <figure class="figure-card fabe">
+      <img src="images/image1.png" alt="The FABE framework: Features, Advantages, Benefits, Evidence">
+      <figcaption>The FABE framework we used to map BioMeBar against competitors</figcaption>
+    </figure>
+
+    <div class="aside">
+      <img src="images/image5.png" alt="Mystery shopper icon">
+      <p>We also conducted <strong>mystery shopper research</strong> to understand the customer experience. The differences were stark: some competitors regularly followed up and kept me engaged, while others called once and then went silent.</p>
+    </div>
+
+    <p>This gave us a clearer understanding of both the competitive landscape and what a good customer experience looked like.</p>
+  </section>
+
+  <section id="right-leads">
+    <span class="section-num">02</span>
+    <h2>Defining the Right Leads</h2>
+    <p>Once we were confident about our moat and USP, we started working on our <strong>Ideal Partner Profile</strong>.</p>
+    <p>We looked at previous leads that had converted and analysed the traits they had in common. We then used keywords in <img class="inline-logo" src="images/image4.png" alt="Apify"> to generate a list of companies that could potentially be contacted.</p>
+    <p><strong>But keyword matching wasn't enough.</strong></p>
+    <p>It did not account for the other factors that made a company a good fit. So, I built a custom skill on Claude that defined the characteristics of a good lead, along with what made a bad lead and should be excluded.</p>
+    <p>The outputs initially looked good, but when I started validating them, I found several issues:</p>
+
+    <ul class="issues">
+      <li><strong>Outdated company information</strong>Claude sometimes relied on old information that was still available on Google, even though the company's direction had changed.</li>
+      <li><strong>Incorrect founder details</strong>It could identify a founder from an old page even though they had since left the company.</li>
+      <li><strong>Missing contact details</strong>Founder names and LinkedIn profiles were sometimes missed even when they were easily discoverable through a simple web search.</li>
+      <li><strong>Wrong fit</strong>The results sometimes included direct competitors or very large companies that were unlikely to collaborate.</li>
+    </ul>
+
+    <p class="pull">Getting an answer from AI does not mean getting a verified answer.</p>
+  </section>
+
+  <section id="qa-layer">
+    <span class="section-num">03</span>
+    <h2>Adding a QA Layer</h2>
+    <p>To tackle these issues, I built a <strong>QA skill</strong> that assumed every field might be wrong and re-verified it through a fresh web search.</p>
+    <p>It contained explicit rules for what needed to be checked, along with examples of misses that had occurred previously. For example:</p>
+
+    <div class="code-box" role="figure" aria-label="Example QA rule from qa-rules.md">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="tab"><span class="md-badge">MD</span>qa-rules.md</span></div>
+      <ol>
+        <li><span>Is it too big?</span></li>
+        <li><span>Reachable-founder test: Would a founder personally read a LinkedIn message?</span></li>
+        <li><span>100+ locations, large funded consumer brands, corporate ownership → REJECT</span></li>
+        <li><span>Real cases: HealthifyMe, Carmesi, Fast&amp;Up.</span></li>
+      </ol>
+    </div>
+
+    <p>This additional layer gave us a more consistent and reliable list of companies and founders.</p>
+    <p><strong>But finding the right people was only half the problem.</strong></p>
+  </section>
+
+  <section id="personalisation">
+    <span class="section-num">04</span>
+    <h2>The Personalisation vs. Scale Problem</h2>
+    <p>At Accenture, I had worked with personalisation in several ways: dynamic content, send-time optimisation, engagement frequency, and journeys based on customer interactions.</p>
+    <p><strong>Cold outreach was different.</strong></p>
+    <p>There was no previous customer data to work with, and our initial messages had a reply rate of just <strong>10%</strong>.</p>
+    <p>We experimented with the <strong>emotion wheel</strong>, thinking about what emotion we wanted to evoke from the partner and building different versions of messages around it.</p>
+
+    <figure class="wheel">
+      <div class="wheel-spin" tabindex="0" aria-label="Emotion wheel">
+        <div class="wheel-scroll"><img src="images/image2.png" alt="The emotion wheel"></div>
+      </div>
+      <figcaption>The emotion wheel helped us choose the feeling each message should evoke</figcaption>
+    </figure>
+
+    <p>We also explored ways to make AI-generated messages feel less generic, including a <strong>Deslopify skill found on GitHub</strong>.</p>
+    <p>But the bigger insight was around <strong>relevance</strong>.</p>
+    <p>There is always a greater chance of someone responding when the message feels like it was actually written for them. We wanted the lead to feel that we knew who they were, appreciated the work they were doing, and had a solution that could genuinely benefit them.</p>
+    <p>This meant going beyond simply adding someone's name to a template.</p>
+  </section>
+
+  <section id="outreach">
+    <span class="section-num">05</span>
+    <h2>Building the Outreach Engine</h2>
+    <p>I built a custom outreach skill for Claude that incorporated:</p>
+    <ul class="checklist">
+      <li>The founder's tone and writing style</li>
+      <li>The emotion we wanted the lead to feel: <strong>curiosity and enthusiasm</strong></li>
+      <li>Something relevant the person had posted about or the company was working on</li>
+      <li>The specific value BioMeBar could bring to them</li>
+    </ul>
+    <p>The goal wasn't to make AI write a generic personalised message. It was to make the message demonstrate that we had <strong>actually looked at the person, understood what they were doing, and had a reason for reaching out.</strong></p>
+    <p>Because this was a high-stakes process, it still required a <strong>human-in-the-loop</strong> approach. The messages were generated and kept ready, but a quick review was necessary to make sure the model wasn't hallucinating details or being too vague.</p>
+  </section>
+
+  <section id="result">
+    <span class="section-num">06</span>
+    <h2>The Result</h2>
+    <div class="stat" role="figure" aria-label="Reply rate went from 10% to 37%">
+      <div class="stat-nums">
+        <div class="before"><div class="num">10%</div><div class="label">Reply rate before</div></div>
+        <div class="arrow" aria-hidden="true">→</div>
+        <div class="after"><div class="num"><span class="count" data-from="10" data-to="37">37</span>%</div><div class="label">Reply rate after</div></div>
+      </div>
+    </div>
+    <p>More importantly, many leads specifically complimented our cold messages.</p>
+    <p>The workflow became:</p>
+    <ol class="pipeline">
+      <li><span>Company discovery</span></li>
+      <li><span>ICP filtering</span></li>
+      <li><span>AI research</span></li>
+      <li><span>QA verification</span></li>
+      <li><span>Personalised outreach</span></li>
+      <li><span>Human review</span></li>
+    </ol>
+    <p>The skills ran regularly during a coworking session and produced a sheet that I could work from, turning what had initially been a manual process into a repeatable lead prospecting engine.</p>
+  </section>
+
+  <section id="learnings">
+    <h2>What I Learned</h2>
+    <p>The biggest learning for me was that building an AI-powered workflow isn't about getting AI to do everything.</p>
+    <p class="pull">It's about figuring out where AI is good, where it fails, and where human judgement needs to remain in the loop.</p>
+    <p>For us, each layer solved a problem exposed by the previous one:</p>
+    <ol class="pipeline">
+      <li><span>Keywords</span></li>
+      <li><span>AI qualification</span></li>
+      <li><span>QA</span></li>
+      <li><span>Personalised outreach</span></li>
+      <li><span>Human review</span></li>
+    </ol>
+    <p class="closing">That, more than any individual Claude skill, was what turned a collection of AI prompts into a <strong>lead prospecting engine.</strong></p>
+  </section>
+
+</article>
+
+<script>
+(function () {
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
+
+  /* ---- Reading progress + active section in nav ---- */
+  var bar = document.querySelector('.progress');
+  var links = Array.prototype.slice.call(document.querySelectorAll('.topnav a.link'));
+  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  var navList = document.querySelector('.topnav ul');
+  var activeIdx = -1;
+
+  function updateNav() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? clamp(window.scrollY / max, 0, 1) : 0) + ')';
+
+    var idx = -1;
+    var line = window.innerHeight * 0.3;
+    sections.forEach(function (s, i) { if (s.getBoundingClientRect().top <= line) idx = i; });
+    if (idx !== activeIdx) {
+      activeIdx = idx;
+      links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+      var target = 0;
+      if (idx >= 0) {
+        var a = links[idx];
+        target = a.offsetLeft - (navList.clientWidth - a.offsetWidth) / 2;
+      }
+      navList.scrollTo({ left: target, behavior: 'smooth' });
+    }
+  }
+
+  /* ---- Hands meet as you scroll ---- */
+  var hands = document.querySelector('.hands');
+  var robot = hands.querySelector('.robot');
+  var human = hands.querySelector('.human');
+  var SPLIT = 48.29;   // % across the photo, midway between the fingertips
+  var APART = 9;       // % each hand starts pulled back
+  var MEET = 0.72;     // % each hand moves past its original spot so the tips touch
+
+  var plate = hands.querySelector('.plate');
+  function paintPlate() {
+    try { plate.getContext('2d').drawImage(robot, 451, 0, 1, 525, 0, 0, 1, 525); } catch (err) {}
+  }
+  if (robot.complete) paintPlate(); else robot.addEventListener('load', paintPlate);
+
+  function updateHands() {
+    var p = 1;
+    if (!reduceMotion) {
+      var r = hands.getBoundingClientRect();
+      var centerY = r.top + window.scrollY + r.height / 2;
+      var distance = Math.max(260, centerY - window.innerHeight * 0.45);
+      p = clamp(window.scrollY / distance, 0, 1);
+    }
+    var e = 1 - Math.pow(1 - p, 3);
+    var d = -APART + (APART + MEET) * e;   // robot offset; human mirrors it
+    var overlap = Math.max(0, d);
+    robot.style.transform = 'translateX(' + d + '%)';
+    human.style.transform = 'translateX(' + (-d) + '%)';
+    robot.style.clipPath = 'inset(0 ' + (100 - SPLIT + overlap) + '% 0 0)';
+    human.style.clipPath = 'inset(0 0 0 ' + (SPLIT + overlap) + '%)';
+    hands.classList.toggle('touched', p >= 0.995);
+  }
+
+  /* ---- Emotion wheel turns a little as it scrolls past ---- */
+  var wheelScroll = document.querySelector('.wheel-scroll');
+  function updateWheel() {
+    if (reduceMotion) return;
+    var r = wheelScroll.getBoundingClientRect();
+    var t = clamp((window.innerHeight - r.top) / (window.innerHeight + r.height), 0, 1);
+    wheelScroll.style.transform = 'rotate(' + (t * 120) + 'deg)';
+  }
+
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { updateNav(); updateHands(); updateWheel(); ticking = false; });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  updateNav();
+  updateHands();
+  updateWheel();
+
+  /* ---- Issue tiles appear one after the other ---- */
+  var tiles = document.querySelectorAll('.issues li');
+  var TILE_GAP = 450;    // ms between one tile and the next
+  var nextSlot = 0;
+  var tileObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var el = en.target;
+      var now = performance.now();
+      var at = Math.max(now, nextSlot);
+      nextSlot = at + TILE_GAP;
+      setTimeout(function () { el.classList.add('in'); }, at - now);
+      tileObserver.unobserve(el);
+    });
+  }, { rootMargin: '0px 0px -15% 0px', threshold: 0.5 });
+  tiles.forEach(function (t) { tileObserver.observe(t); });
+
+  /* ---- Emotion wheel: tap to toggle spin on touch screens ---- */
+  var wheel = document.querySelector('.wheel-spin');
+  wheel.addEventListener('click', function () { wheel.classList.toggle('spinning'); });
+  wheel.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); wheel.classList.toggle('spinning'); }
+  });
+
+  /* ---- 10% → 37% count-up ---- */
+  var stat = document.querySelector('.stat');
+  var counter = stat.querySelector('.count');
+  var from = +counter.dataset.from, to = +counter.dataset.to;
+  if (!reduceMotion) counter.textContent = from;
+  var statObserver = new IntersectionObserver(function (entries) {
+    if (!entries[0].isIntersecting) return;
+    statObserver.disconnect();
+    stat.classList.add('go');
+    if (reduceMotion) return;
+    var start = null, dur = 1800;
+    (function step(t) {
+      if (start === null) start = t;
+      var k = clamp((t - start) / dur, 0, 1);
+      var eased = 1 - Math.pow(1 - k, 3);
+      counter.textContent = Math.round(from + (to - from) * eased);
+      if (k < 1) requestAnimationFrame(step);
+    })(performance.now());
+  }, { threshold: 0.5 });
+  statObserver.observe(stat);
+})();
+</script>
+</body>
+</html>

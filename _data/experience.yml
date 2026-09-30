@@ -11,6 +11,7 @@
     # - "Defined the ICP and 1–10 scoring model across 3 clinical segments (GI/IBS, GLP-1/metabolic, and women’s health) with automated filters eliminating unreachable accounts."
     # - "Eliminated wrong-contact outreach with a 9-point QA pass re-verifying founder identity, clinical specialty, location, and competitor overlap."
     - "Shipped a real-time pipeline dashboard (Cloudflare Pages + Apps Script API) that auto-stages leads and refreshes daily worklists."
+    - 'To know more, <a href="/biomebar-case-study/">click here</a>.'
 
 - role: Product Analyst
   company: RoloScan AI
