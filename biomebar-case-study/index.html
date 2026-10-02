@@ -411,6 +411,17 @@
     word-break: break-word;
     min-height: 1.85em;
   }
+  .code-box .status {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 16px;
+    background: #161618;
+    border-top: 1px solid #242428;
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-size: 11.5px;
+    color: #9a9aa0;
+  }
+  .code-box .status span:last-child { color: var(--rose); }
   .code-box li::before {
     content: counter(ln);
     text-align: right;
@@ -418,6 +429,223 @@
     color: #4a4a50;
     user-select: none;
   }
+
+  /* Wide figures break out of the text column */
+  .wide {
+    position: relative;
+    width: min(1040px, calc(100vw - 32px));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Redaction bar */
+  .redact {
+    display: inline-block;
+    height: 0.95em;
+    vertical-align: -0.12em;
+    background: #1c1f1d;
+    border-radius: 2px;
+  }
+
+  /* Spreadsheet output */
+  .sheet {
+    background: #fff;
+    border: 1px solid #d6d6d6;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: left;
+    box-shadow: 0 18px 40px -26px rgba(43, 26, 29, 0.45);
+    font-family: Aptos, Calibri, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  .sheet-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    background: #217346;
+    color: #fff;
+    font-size: 13px;
+  }
+  .sheet-title .xl {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    background: #fff;
+    color: #217346;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .sheet-title .meta { margin-left: auto; opacity: 0.8; font-size: 12px; }
+  .formula {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid #d6d6d6;
+    font-size: 12.5px;
+    color: #333;
+  }
+  .formula .cellref {
+    width: 64px;
+    padding: 5px 8px;
+    border-right: 1px solid #d6d6d6;
+  }
+  .formula .fx {
+    padding: 5px 10px;
+    border-right: 1px solid #d6d6d6;
+    color: #888;
+    font-style: italic;
+    font-family: Georgia, serif;
+  }
+  .formula .val { padding: 5px 10px; }
+  .grid-wrap { overflow-x: auto; }
+  .grid {
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 12.5px;
+    color: #222;
+  }
+  .grid th, .grid td {
+    height: 26px;
+    padding: 0 7px;
+    border: 1px solid #e1e1e1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+  }
+  .grid thead th {
+    background: #f3f3f3;
+    color: #666;
+    font-weight: 400;
+    text-align: center;
+    border-color: #d6d6d6;
+  }
+  .grid .rn {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    width: 36px;
+    background: #f3f3f3;
+    color: #666;
+    text-align: center;
+    border-color: #d6d6d6;
+  }
+  .grid .ttl { font-weight: 700; font-size: 13px; }
+  .grid .rn.gap { border-top: 3px double #b9b9b9; }
+  .grid .hdr td:not(.rn) {
+    background: #f6eceb;
+    color: var(--wine);
+    font-weight: 700;
+  }
+  .grid .sel { outline: 2px solid #217346; outline-offset: -2px; }
+  .grid .good { background: #e2f0d9; color: #375623; }
+  .grid .bad { background: #fde2e1; color: #9c0006; }
+  .grid .warn { background: #fff2cc; color: #7f6000; }
+  .sheet-tabs {
+    display: flex;
+    gap: 2px;
+    padding: 0 10px;
+    background: #f3f3f3;
+    border-top: 1px solid #d6d6d6;
+    font-size: 12px;
+  }
+  .sheet-tabs span {
+    padding: 6px 14px;
+    color: #666;
+  }
+  .sheet-tabs span.on {
+    background: #fff;
+    color: #217346;
+    font-weight: 600;
+    border-bottom: 2px solid #217346;
+  }
+
+  .example-label {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 14px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--wine);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Dashboard screenshots */
+  .dash-tabs {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    margin-bottom: 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+  }
+  .dash-tabs button {
+    font: inherit;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--muted);
+    background: none;
+    border: 0;
+    border-radius: 999px;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .dash-tabs button:hover { color: var(--wine); }
+  .dash-tabs button[aria-selected="true"] { background: var(--wine); color: #fff; }
+  .browser {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    text-align: left;
+    box-shadow: 0 18px 40px -26px rgba(43, 26, 29, 0.45);
+  }
+  .browser .chrome {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 14px;
+    background: #f4efee;
+    border-bottom: 1px solid var(--line);
+  }
+  .browser .chrome .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--quartz); }
+  .browser .url {
+    flex: 1;
+    max-width: 420px;
+    margin-left: 12px;
+    padding: 4px 12px;
+    background: #fff;
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .shots {
+    display: grid;
+    aspect-ratio: 2000 / 1323;
+    background: #eef3f0;
+  }
+  .shots a { grid-area: 1 / 1; display: block; min-height: 0; }
+  .shots img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+  }
+  .shots a.on img { opacity: 1; }
+  .shots a:not(.on) { pointer-events: none; }
 
   /* Checklist */
   .checklist {
@@ -627,7 +855,7 @@
     <span class="section-num">03</span>
     <h2>Adding a QA Layer</h2>
     <p>To tackle these issues, I built a <strong>QA skill</strong> that assumed every field might be wrong and re-verified it through a fresh web search.</p>
-    <p>It contained explicit rules for what needed to be checked, along with examples of misses that had occurred previously. For example:</p>
+    <p>It contained <strong>10 explicit rules</strong> for what needed to be checked, each with examples of misses that had occurred previously. Here is one of them:</p>
 
     <div class="code-box" role="figure" aria-label="Example QA rule from qa-rules.md">
       <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="tab"><span class="md-badge">MD</span>qa-rules.md</span></div>
@@ -637,6 +865,7 @@
         <li><span>100+ locations, large funded consumer brands, corporate ownership → REJECT</span></li>
         <li><span>Real cases: HealthifyMe, Carmesi, Fast&amp;Up.</span></li>
       </ol>
+      <div class="status"><span>Markdown</span><span>10 rules in this file · 1 shown</span></div>
     </div>
 
     <p>This additional layer gave us a more consistent and reliable list of companies and founders.</p>
@@ -699,6 +928,54 @@
       <li><span>Human review</span></li>
     </ol>
     <p>The skills ran regularly during a coworking session and produced a sheet that I could work from, turning what had initially been a manual process into a repeatable lead prospecting engine.</p>
+
+    <figure class="wide">
+      <span class="example-label">Example output · Lead mastersheet</span>
+      <div class="sheet" role="figure" aria-label="Lead mastersheet output with 21 fields per lead; names and companies redacted">
+        <div class="sheet-title"><span class="xl">X</span>Lead_Mastersheet.xlsx<span class="meta">21 fields per lead</span></div>
+        <div class="formula"><span class="cellref">O3</span><span class="fx">fx</span><span class="val">Personalised Message</span></div>
+        <div class="grid-wrap">
+          <table class="grid" style="width:3560px">
+            <colgroup><col style="width:36px"><col style="width:46px"><col style="width:150px"><col style="width:118px"><col style="width:100px"><col style="width:240px"><col style="width:120px"><col style="width:160px"><col style="width:140px"><col style="width:280px"><col style="width:230px"><col style="width:280px"><col style="width:200px"><col style="width:230px"><col style="width:110px"><col style="width:300px"><col style="width:100px"><col style="width:300px"><col style="width:130px"><col style="width:90px"><col style="width:120px"><col style="width:80px"></colgroup>
+            <thead>
+            <tr><th class="rn"></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>G</th><th>H</th><th>I</th><th>J</th><th>K</th><th>L</th><th>M</th><th>N</th><th>O</th><th>P</th><th>Q</th><th>R</th><th>S</th><th>T</th><th>U</th></tr>
+            </thead>
+            <tbody>
+            <tr><td class="rn">1</td><td class="ttl" colspan="21">BioMeBar — Qualified Outreach &amp; Tracking Master &nbsp;|&nbsp; IBS (GI Clinics) · Acidity/Bloating/GLP-1 · Women's Health</td></tr>
+            <tr><td class="rn">2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr class="hdr"><td class="rn">3</td><td>#</td><td>Name</td><td>Type</td><td>Relevance</td><td>Relevance Reason</td><td>Location</td><td>Lead Doctor / Founder</td><td>Founder Category</td><td>Description of Company</td><td>Company LinkedIn</td><td>Why Partner (specific)</td><td>Founder LinkedIn</td><td>Mobile / Phone</td><td>Email</td><td class="sel">Personalised Message</td><td>References</td><td>Data Confidence</td><td>Connection Sent?</td><td>Accepted?</td><td>Message Sent?</td><td>Replied?</td></tr>
+            <tr><td class="rn">4</td><td>1</td><td><span class="redact" style="width:110px" role="img" aria-label="redacted"></span></td><td>IBS (GI Clinics)</td><td class="bad">Not Relevant</td><td>WEBSITE NOT FUNCTIONAL - NO RECENT POSTS</td><td>New Delhi, Delhi</td><td>NOT FOUND — enrich</td><td>Business + Clinical</td><td><span class="redact" style="width:90px" role="img" aria-label="redacted"></span> is a doctor-founded health &amp; wellness brand specializing in science-backed, plant-powered supplements…</td><td>https://www.linkedin.com/company/<span class="redact" style="width:80px" role="img" aria-label="redacted"></span></td><td>Their clinical or gut-health work maps directly to BioMeBar's IBS, bloating, and synbiotic protocol; a referral, pilot, or co-created education partnership is a natural fit.</td><td>NOT FOUND</td><td>NOT FOUND — public website checked</td><td></td><td>Hi <span class="redact" style="width:70px" role="img" aria-label="redacted"></span> team, I spent some time on the <span class="redact" style="width:60px" role="img" aria-label="redacted"></span> range before writing this…</td><td></td><td class="warn">MEDIUM — company profile verified; founder not found</td><td class="bad">No</td><td></td><td></td><td></td></tr>
+            <tr><td class="rn">5</td><td>2</td><td><span class="redact" style="width:130px" role="img" aria-label="redacted"></span></td><td>IBS (GI Clinics)</td><td class="bad">Not Relevant</td><td>TOO SMALL, NO RECENT POSTS, WEBSITE NOT MAINTAINED</td><td>noida india</td><td>NOT FOUND — enrich</td><td>Business + Clinical</td><td><span class="redact" style="width:120px" role="img" aria-label="redacted"></span> is a healthcare practice specializing in personalized, integrative therapies for Gut Health, Hormonal Balance…</td><td>https://www.linkedin.com/company/<span class="redact" style="width:90px" role="img" aria-label="redacted"></span></td><td>Their clinical or gut-health work maps directly to BioMeBar's IBS, bloating, and synbiotic protocol; a referral, pilot, or co-created education partnership is a natural fit.</td><td>NOT FOUND</td><td>NOT FOUND — public website checked</td><td></td><td>Hi <span class="redact" style="width:120px" role="img" aria-label="redacted"></span> team, I came across your holistic, whole-person approach to health in Noida…</td><td></td><td class="warn">MEDIUM — company profile verified; founder not found</td><td class="bad">No</td><td></td><td></td><td></td></tr>
+            <tr><td class="rn">6</td><td>3</td><td><span class="redact" style="width:125px" role="img" aria-label="redacted"></span></td><td>IBS (GI Clinics)</td><td class="good">Relevant</td><td>Clear BioMeBar overlap through gut, IBS/bloating, metabolic, or women's-health use case.</td><td>Delhi, Delhi</td><td><span class="redact" style="width:100px" role="img" aria-label="redacted"></span></td><td>Business</td><td><span class="redact" style="width:120px" role="img" aria-label="redacted"></span> is a Healthcare Management Consulting in 360 Degree in various Verticals of the Healthcare in Digital Health…</td><td>https://www.linkedin.com/company/<span class="redact" style="width:100px" role="img" aria-label="redacted"></span></td><td>Their clinical or gut-health work maps directly to BioMeBar's IBS, bloating, and synbiotic protocol; a referral, pilot, or co-created education partnership is a natural fit.</td><td>https://www.linkedin.com/in/<span class="redact" style="width:70px" role="img" aria-label="redacted"></span></td><td>NOT FOUND — public website checked</td><td></td><td>Hi <span class="redact" style="width:60px" role="img" aria-label="redacted"></span>, Good to connect. <span class="redact" style="width:80px" role="img" aria-label="redacted"></span>'s work across its Digital AI Health platform…</td><td></td><td class="good">HIGH</td><td class="good">Yes</td><td class="good">Yes</td><td class="good">Yes</td><td></td></tr>
+            <tr><td class="rn gap">117</td><td>114</td><td><span class="redact" style="width:90px" role="img" aria-label="redacted"></span></td><td>Women's Health</td><td class="good">Relevant</td><td>Clear BioMeBar overlap through gut, IBS/bloating, metabolic, or women's-health use case.</td><td>Bangalore</td><td><span class="redact" style="width:110px" role="img" aria-label="redacted"></span></td><td>Business</td><td><span class="redact" style="width:80px" role="img" aria-label="redacted"></span> is a Women's Health target in Bangalore. Current verified contact context: Co-founder &amp; CEO <span class="redact" style="width:80px" role="img" aria-label="redacted"></span></td><td>NOT FOUND — verify manually</td><td>Perimenopause gut decline = unowned story</td><td>https://in.linkedin.com/in/<span class="redact" style="width:90px" role="img" aria-label="redacted"></span></td><td>NOT FOUND</td><td></td><td>Hi <span class="redact" style="width:50px" role="img" aria-label="redacted"></span>, I came across <span class="redact" style="width:80px" role="img" aria-label="redacted"></span> and was struck by how closely our missions align…</td><td></td><td class="good">HIGH</td><td class="good">Yes</td><td class="good">Yes</td><td class="good">Yes</td><td class="good">Yes</td></tr>
+            <tr><td class="rn gap">130</td><td>127</td><td><span class="redact" style="width:105px" role="img" aria-label="redacted"></span></td><td>Acidity / Bloating / GLP-1</td><td class="good">Relevant</td><td>Clear BioMeBar overlap through gut, IBS/bloating, metabolic, or women's-health use case.</td><td>India</td><td><span class="redact" style="width:100px" role="img" aria-label="redacted"></span></td><td>Business + Clinical</td><td><span class="redact" style="width:100px" role="img" aria-label="redacted"></span> is a Acidity / Bloating / GLP-1 target in India. Current verified contact context: Founder <span class="redact" style="width:90px" role="img" aria-label="redacted"></span> / <span class="redact" style="width:110px" role="img" aria-label="redacted"></span>; LinkedIn not confirmed</td><td>NOT FOUND — verify manually</td><td>Gut intervention for diabetes pilot</td><td>https://www.linkedin.com/in/<span class="redact" style="width:90px" role="img" aria-label="redacted"></span></td><td>NOT FOUND</td><td></td><td>Hi <span class="redact" style="width:50px" role="img" aria-label="redacted"></span>, I spent some time on <span class="redact" style="width:100px" role="img" aria-label="redacted"></span> before writing this…</td><td>https://www.linkedin.com/in/<span class="redact" style="width:90px" role="img" aria-label="redacted"></span> — post “<span class="redact" style="width:160px" role="img" aria-label="redacted"></span>” (~5mo ago) + post on building a metabolic wellness ecosystem beyond one product (~4mo ago)</td><td class="good">HIGH</td><td class="good">Yes</td><td class="good">Yes</td><td class="good">Yes</td><td class="good">Yes</td></tr>
+            <tr><td class="rn">131</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="rn">132</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="sheet-tabs"><span class="on">Qualified Outreach</span></div>
+      </div>
+      <figcaption>An Excel mastersheet with 21 fields for every lead.</figcaption>
+    </figure>
+
+    <figure class="wide dash">
+      <span class="example-label">Example output · Apps Script dashboard</span>
+      <div class="dash-tabs" role="tablist" aria-label="Dashboard views">
+        <button role="tab" aria-selected="true" data-shot="0">Pipeline</button>
+        <button role="tab" aria-selected="false" data-shot="1">Send queue</button>
+        <button role="tab" aria-selected="false" data-shot="2">Leads</button>
+      </div>
+      <div class="browser">
+        <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">script.google.com/macros/s/•••/exec</span></div>
+        <div class="shots">
+          <a class="on" href="images/dashboard-pipeline.webp" target="_blank" rel="noopener"><img src="images/dashboard-pipeline.webp" alt="Pipeline view: 255 qualified, 172 connected, 65 accepted, 53 messaged, 18 replied, with an action inbox of leads to respond to"></a>
+          <a href="images/dashboard-send-queue.webp" target="_blank" rel="noopener"><img src="images/dashboard-send-queue.webp" alt="Send queue view: leads ready for a connection request, each with a data-confidence note and why-partner reason" loading="lazy"></a>
+          <a href="images/dashboard-leads.webp" target="_blank" rel="noopener"><img src="images/dashboard-leads.webp" alt="Leads view: replied leads with last action date and why-partner reason" loading="lazy"></a>
+        </div>
+      </div>
+      <figcaption>Built with Apps Script on top of the sheet, it tracked the pipeline, the daily send queue and replies.</figcaption>
+    </figure>
   </section>
 
   <section id="learnings">
@@ -713,7 +990,7 @@
       <li><span>Personalised outreach</span></li>
       <li><span>Human review</span></li>
     </ol>
-    <p class="closing">That, more than any individual Claude skill, was what turned a collection of AI prompts into a <strong>lead prospecting engine.</strong></p>
+    <p class="closing">We started with a simple goal: find the right companies and the right people. By the end, we had a process that made this much easier and faster.</p>
   </section>
 
 </article>
@@ -825,6 +1102,27 @@
   wheel.addEventListener('keydown', function (ev) {
     if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); wheel.classList.toggle('spinning'); }
   });
+
+  /* ---- Dashboard screenshot tabs (auto-advance until clicked) ---- */
+  var dashTabs = Array.prototype.slice.call(document.querySelectorAll('.dash-tabs button'));
+  var shots = Array.prototype.slice.call(document.querySelectorAll('.shots a'));
+  var dashIdx = 0, dashTimer = null;
+  function showShot(i) {
+    dashIdx = i;
+    dashTabs.forEach(function (b, j) { b.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+    shots.forEach(function (s, j) { s.classList.toggle('on', j === i); });
+  }
+  dashTabs.forEach(function (b, i) {
+    b.addEventListener('click', function () { clearInterval(dashTimer); dashTimer = null; showShot(i); });
+  });
+  if (!reduceMotion) {
+    var dashObserver = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      dashObserver.disconnect();
+      dashTimer = setInterval(function () { showShot((dashIdx + 1) % shots.length); }, 4000);
+    }, { threshold: 0.5 });
+    dashObserver.observe(document.querySelector('.dash'));
+  }
 
   /* ---- 10% → 37% count-up ---- */
   var stat = document.querySelector('.stat');
