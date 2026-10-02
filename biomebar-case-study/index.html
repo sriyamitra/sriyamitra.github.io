@@ -7,24 +7,28 @@
 <meta name="description" content="How I built an AI-powered lead prospecting engine for BioMeBar, taking cold outreach reply rates from 10% to 37%.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add('js');</script>
 <style>
-  /* Palette: Rose quartz evening */
+  /* Palette: matches sriyamitra.github.io (al-folio light theme) */
   :root {
-    --wine: #64242f;
-    --brick: #b44446;
-    --rose: #fc8f8f;
-    --quartz: #dfd9d8;
+    --accent: #b509ac;
+    --accent-light: #e9a6e5;
+    --accent-soft: rgba(181, 9, 172, 0.07);
+    --dark: #1c1c1d;
 
-    --bg: #faf6f5;
+    --bg: #ffffff;
     --surface: #ffffff;
-    --ink: #2b1a1d;
-    --muted: #6f5d60;
-    --line: #ebe3e2;
-    --accent: var(--brick);
-    --accent-soft: #fdeaea;
+    --ink: #000000;
+    --muted: #6f6f6f;
+    --line: rgba(0, 0, 0, 0.1);
     --nav-h: 56px;
+
+    /* aliases kept so existing rules pick up the new palette */
+    --wine: var(--dark);
+    --brick: var(--accent);
+    --rose: var(--accent-light);
+    --quartz: #d9d9d9;
   }
 
   * { box-sizing: border-box; }
@@ -34,8 +38,9 @@
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 17px;
+    font-weight: 300;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
   }
@@ -45,10 +50,10 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(250, 246, 245, 0.82);
+    background: rgba(255, 255, 255, 0.95);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(235, 227, 226, 0.7);
+    border-bottom: 1px solid var(--line);
   }
   .topnav-inner {
     max-width: 1040px;
@@ -106,8 +111,8 @@
     opacity: 0;
     transition: opacity 0.2s;
   }
-  .topnav a.link:hover { color: var(--wine); }
-  .topnav a.link.active { color: var(--wine); font-weight: 500; }
+  .topnav a.link:hover { color: var(--accent); }
+  .topnav a.link.active { color: var(--accent); font-weight: 400; }
   .topnav a.link.active::after { opacity: 1; }
 
   .progress {
@@ -118,7 +123,7 @@
     width: 100%;
     transform-origin: 0 50%;
     transform: scaleX(0);
-    background: linear-gradient(90deg, var(--wine), var(--brick) 55%, var(--rose));
+    background: var(--accent);
   }
 
   .article {
@@ -131,12 +136,11 @@
   .header { text-align: center; }
 
   h1 {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 600;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
     font-size: clamp(30px, 4.6vw, 42px);
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-    color: var(--wine);
+    line-height: 1.2;
+    color: var(--ink);
     margin: 0 auto 20px;
     text-wrap: balance;
   }
@@ -157,7 +161,7 @@
     border-radius: 16px;
     overflow: hidden;
     background: #dcdcdc;
-    box-shadow: 0 16px 44px -20px rgba(100, 36, 47, 0.45);
+    box-shadow: 0 16px 44px -20px rgba(0, 0, 0, 0.3);
   }
   /* a 1px slice of the photo's backdrop, stretched to fill the gap between the halves */
   .hands .plate {
@@ -184,7 +188,7 @@
     height: 64px;
     margin: -32px 0 0 -32px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 8%, rgba(252, 143, 143, 0.7) 22%, rgba(252, 143, 143, 0) 70%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 8%, rgba(181, 9, 172, 0.45) 22%, rgba(181, 9, 172, 0) 70%);
     opacity: 0;
     transform: scale(0.3);
     pointer-events: none;
@@ -205,21 +209,21 @@
   .section-num {
     display: block;
     text-align: center;
-    font-family: "Fraunces", Georgia, serif;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--brick);
-    letter-spacing: 0.08em;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--accent);
+    letter-spacing: 0.12em;
     margin-bottom: 6px;
   }
 
   h2 {
-    font-family: "Fraunces", Georgia, serif;
-    font-weight: 600;
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
     font-size: clamp(25px, 3.6vw, 31px);
     line-height: 1.25;
     text-align: center;
-    color: var(--wine);
+    color: var(--ink);
     margin: 0 0 28px;
     text-wrap: balance;
   }
@@ -229,12 +233,12 @@
     width: 40px;
     height: 3px;
     border-radius: 2px;
-    background: linear-gradient(90deg, var(--brick), var(--rose));
+    background: var(--accent);
     margin: 16px auto 0;
   }
 
   p { margin: 0 0 20px; text-wrap: pretty; }
-  strong { font-weight: 600; }
+  strong { font-weight: 500; }
 
   /* ---------- Figures ---------- */
   figure { margin: 36px 0; text-align: center; }
@@ -274,7 +278,7 @@
   .wheel-spin:hover,
   .wheel-spin.spinning {
     transform: scale(1.03);
-    filter: drop-shadow(0 12px 24px rgba(100, 36, 47, 0.18));
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.15));
   }
   .wheel-spin:hover img,
   .wheel-spin.spinning img { animation-play-state: running; }
@@ -320,15 +324,16 @@
   }
   .js .issues li { opacity: 0; transform: translateX(-40px); }
   .js .issues li.in { opacity: 1; transform: none; }
-  .issues strong { display: block; margin-bottom: 2px; color: var(--wine); }
+  .issues strong { display: block; margin-bottom: 2px; color: var(--ink); }
 
   /* Pull quote */
   .pull {
-    font-family: "Fraunces", Georgia, serif;
+    font-family: "Roboto", sans-serif;
     font-size: 23px;
-    line-height: 1.4;
+    font-weight: 300;
+    line-height: 1.45;
     text-align: center;
-    color: var(--brick);
+    color: var(--accent);
     margin: 40px auto;
     max-width: 560px;
     text-wrap: balance;
@@ -362,7 +367,7 @@
     height: 40px;
     background: #161618;
     border-bottom: 1px solid #242428;
-    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 12px;
     color: #9a9aa0;
   }
@@ -398,7 +403,7 @@
     margin: 0;
     padding: 18px 0 20px;
     counter-reset: ln;
-    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 14px;
     line-height: 1.85;
   }
@@ -417,7 +422,7 @@
     padding: 6px 16px;
     background: #161618;
     border-top: 1px solid #242428;
-    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: 11.5px;
     color: #9a9aa0;
   }
@@ -454,7 +459,7 @@
     border-radius: 10px;
     overflow: hidden;
     text-align: left;
-    box-shadow: 0 18px 40px -26px rgba(43, 26, 29, 0.45);
+    box-shadow: 0 18px 40px -26px rgba(0, 0, 0, 0.25);
     font-family: Aptos, Calibri, "Segoe UI", Helvetica, Arial, sans-serif;
   }
   .sheet-title {
@@ -534,8 +539,8 @@
   .grid .ttl { font-weight: 700; font-size: 13px; }
   .grid .rn.gap { border-top: 3px double #b9b9b9; }
   .grid .hdr td:not(.rn) {
-    background: #f6eceb;
-    color: var(--wine);
+    background: #f2f2f2;
+    color: #000;
     font-weight: 700;
   }
   .grid .sel { outline: 2px solid #217346; outline-offset: -2px; }
@@ -569,9 +574,9 @@
     padding: 4px 12px;
     border-radius: 999px;
     background: var(--accent-soft);
-    color: var(--wine);
+    color: var(--accent);
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
   }
@@ -598,22 +603,22 @@
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
   }
-  .dash-tabs button:hover { color: var(--wine); }
-  .dash-tabs button[aria-selected="true"] { background: var(--wine); color: #fff; }
+  .dash-tabs button:hover { color: var(--accent); }
+  .dash-tabs button[aria-selected="true"] { background: var(--accent); color: #fff; }
   .browser {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 12px;
     overflow: hidden;
     text-align: left;
-    box-shadow: 0 18px 40px -26px rgba(43, 26, 29, 0.45);
+    box-shadow: 0 18px 40px -26px rgba(0, 0, 0, 0.25);
   }
   .browser .chrome {
     display: flex;
     align-items: center;
     gap: 7px;
     padding: 10px 14px;
-    background: #f4efee;
+    background: #f5f5f5;
     border-bottom: 1px solid var(--line);
   }
   .browser .chrome .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--quartz); }
@@ -707,8 +712,8 @@
     font-weight: 600;
   }
   .pipeline li:last-child span {
-    background: var(--wine);
-    border-color: var(--wine);
+    background: var(--accent);
+    border-color: var(--accent);
     color: #fff;
   }
 
@@ -728,13 +733,13 @@
     gap: 28px;
   }
   .stat .num {
-    font-family: "Fraunces", Georgia, serif;
+    font-family: "Roboto", sans-serif;
     font-size: clamp(44px, 8vw, 64px);
-    font-weight: 600;
+    font-weight: 300;
     line-height: 1;
     font-variant-numeric: tabular-nums;
   }
-  .stat .before .num { color: #a8999b; }
+  .stat .before .num { color: #b3b3b3; }
   .stat .after .num { color: var(--brick); }
   .stat .label {
     font-size: 13px;
