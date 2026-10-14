@@ -3,7 +3,7 @@ layout: page
 title: '<i class="fa-regular fa-camera"></i>'
 permalink: /photos/
 nav: true
-nav_order: 3
+nav_order: 4
 ---
 
 <script>
