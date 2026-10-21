@@ -1,0 +1,1129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JobPilot</title>
+<meta name="description" content="An AI job matcher that parses your resume, searches live job boards, ranks every posting with semantic embeddings and a 6-signal scorer, and learns from each accept or reject.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Palette: Rose quartz evening (same as the other project pages) */
+  :root {
+    --wine: #64242f;
+    --brick: #b44446;
+    --rose: #fc8f8f;
+    --quartz: #dfd9d8;
+
+    --bg: #faf6f5;
+    --surface: #ffffff;
+    --ink: #2b1a1d;
+    --muted: #6f5d60;
+    --line: #ebe3e2;
+    --accent-soft: #fdeaea;
+    --nav-h: 56px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    overflow-x: clip;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 17px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topnav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250, 246, 245, 0.82);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(235, 227, 226, 0.7);
+  }
+  .topnav-inner {
+    max-width: 1040px;
+    margin: 0 auto;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 20px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .brand .sep { width: 1px; height: 12px; background: var(--quartz); }
+  .toc {
+    margin-left: auto;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc::-webkit-scrollbar { display: none; }
+  .toc a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .toc a:hover { color: var(--wine); background: var(--accent-soft); }
+
+  .article {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 20px 120px;
+  }
+
+  /* ---------- Header ---------- */
+  .header { text-align: center; }
+  h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(30px, 4.6vw, 42px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--wine);
+    margin: 0 auto 20px;
+    text-wrap: balance;
+  }
+  h1::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--brick), var(--rose));
+    margin: 18px auto 0;
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 620px;
+    margin: 0 auto;
+    text-wrap: pretty;
+  }
+
+  .built {
+    margin: 32px auto 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  .built .label {
+    width: 100%;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brick);
+    margin-bottom: 4px;
+  }
+  .chip {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--wine);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 14px;
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 10px 20px;
+    border: 1px solid var(--wine);
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn.primary { background: var(--wine); color: #fff; }
+  .btn.primary:hover { background: #4d1b24; }
+  .btn.ghost { background: transparent; color: var(--wine); }
+  .btn.ghost:hover { background: var(--accent-soft); }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* ---------- Stats ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 40px 0 0;
+  }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .stat b {
+    display: block;
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--brick);
+  }
+  .stat span { font-size: 13px; color: var(--muted); line-height: 1.4; display: block; margin-top: 4px; }
+
+  /* ---------- Sections ---------- */
+  section { margin-top: 80px; scroll-margin-top: calc(var(--nav-h) + 16px); }
+  .eyebrow {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brick);
+    margin: 0 0 8px;
+  }
+  h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(23px, 3.4vw, 28px);
+    line-height: 1.25;
+    text-align: center;
+    color: var(--wine);
+    margin: 0 0 24px;
+    text-wrap: balance;
+  }
+  h3 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.3;
+    color: var(--wine);
+    margin: 40px 0 10px;
+  }
+  p { margin: 0 0 16px; text-wrap: pretty; }
+  a { color: var(--brick); }
+  strong { font-weight: 600; color: var(--ink); }
+  code, .mono {
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.86em;
+  }
+  code {
+    background: #f4efee;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 1px 5px;
+    white-space: nowrap;
+  }
+  ul.tight { padding-left: 20px; margin: 0 0 16px; }
+  ul.tight li { margin-bottom: 6px; }
+  ul.tight li::marker { color: var(--brick); }
+
+  .flow {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px 0;
+  }
+  .flow li {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .flow li span {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 7px 14px;
+    white-space: nowrap;
+  }
+  .flow li:not(:last-child)::after {
+    content: "→";
+    color: var(--brick);
+    margin: 0 8px;
+    font-weight: 600;
+  }
+  .flow li.fit span { background: var(--accent-soft); border-color: #f6cfcf; color: var(--wine); }
+  .flow li:last-child span { background: var(--wine); border-color: var(--wine); color: #fff; }
+  .flow-note { text-align: center; font-size: 13.5px; color: var(--muted); margin: 14px 0 0; }
+
+  /* Cards and callouts */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin: 24px 0;
+  }
+  .card > :last-child { margin-bottom: 0; }
+  .card-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brick);
+    margin: 0 0 12px;
+  }
+  .callout {
+    border-left: 3px solid var(--rose);
+    background: var(--accent-soft);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin: 24px 0;
+    font-size: 15.5px;
+  }
+  .callout > :last-child { margin-bottom: 0; }
+  .formula {
+    font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    font-size: 14px;
+    background: #f4efee;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    overflow-x: auto;
+    white-space: pre;
+    line-height: 1.6;
+  }
+
+  /* Steps list */
+  .steps { counter-reset: step; list-style: none; padding: 0; margin: 16px 0; }
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 18px 44px;
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    border: 1px solid #f6cfcf;
+    color: var(--wine);
+    font-size: 13px;
+    font-weight: 600;
+    display: grid;
+    place-items: center;
+  }
+  .steps li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 32px;
+    bottom: 4px;
+    width: 1px;
+    background: var(--line);
+  }
+  .steps b { color: var(--wine); font-weight: 600; }
+
+  /* Tables */
+  .table-wrap { overflow-x: auto; margin: 20px 0; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; line-height: 1.5; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  th { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brick); background: #fcf8f7; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td:first-child { font-weight: 500; color: var(--wine); white-space: nowrap; }
+
+  /* Figures */
+  figure { margin: 24px 0; }
+  figure svg { display: block; width: 100%; height: auto; }
+  figcaption { text-align: center; font-size: 14px; color: var(--muted); margin-top: 10px; text-wrap: pretty; }
+  .wide {
+    position: relative;
+    width: min(1040px, calc(100vw - 32px));
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 48px 0 0;
+  }
+  .shot {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 22px 50px -28px rgba(43, 26, 29, 0.5);
+  }
+  .shot .chrome {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 14px;
+    background: #f4efee;
+    border-bottom: 1px solid var(--line);
+  }
+  .shot .chrome .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--quartz); }
+  .shot .chrome .title { margin-left: 12px; font-size: 12.5px; color: var(--muted); }
+  .shot img { display: block; width: 100%; height: auto; }
+
+  /* Signal bars */
+  .sig { display: grid; grid-template-columns: 150px 1fr 48px; align-items: center; gap: 12px; margin: 10px 0; font-size: 14.5px; }
+  .sig .name { color: var(--wine); font-weight: 500; }
+  .sig .bar { height: 10px; background: #f4efee; border-radius: 999px; overflow: hidden; }
+  .sig .bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--brick), var(--rose)); border-radius: 999px; }
+  .sig .val { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13.5px; }
+
+  /* ---------- Playground: score calculator ---------- */
+  .play { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px; margin: 28px 0; box-shadow: 0 16px 40px -30px rgba(43, 26, 29, 0.45); }
+  .play-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .play-head .card-title { margin: 0; }
+  select {
+    font: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 6px 12px;
+  }
+  .srow { display: grid; grid-template-columns: 22px 130px 1fr 44px 52px; align-items: center; gap: 10px; padding: 6px 0; font-size: 14.5px; border-bottom: 1px dashed var(--line); }
+  .srow:last-of-type { border-bottom: 0; }
+  .srow .lbl { color: var(--wine); font-weight: 500; }
+  .srow .v, .srow .w { text-align: right; font-variant-numeric: tabular-nums; font-size: 13.5px; }
+  .srow .w { color: var(--muted); }
+  .srow.off .lbl, .srow.off .v, .srow.off .w { opacity: 0.4; }
+  .srow.off input[type=range] { opacity: 0.35; }
+  input[type=checkbox] { accent-color: var(--brick); width: 16px; height: 16px; margin: 0; }
+  input[type=range] { width: 100%; accent-color: var(--brick); }
+  .cols-head { display: grid; grid-template-columns: 22px 130px 1fr 44px 52px; gap: 10px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); padding-bottom: 4px; border-bottom: 1px solid var(--line); }
+  .cols-head span:nth-child(4), .cols-head span:nth-child(5) { text-align: right; }
+  .result { display: flex; align-items: center; gap: 18px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .result .big { font-family: "Fraunces", Georgia, serif; font-size: 40px; font-weight: 600; color: var(--brick); line-height: 1; font-variant-numeric: tabular-nums; min-width: 110px; }
+  .result .stack { flex: 1; }
+  .stackbar { display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: #f4efee; }
+  .stackbar i { display: block; height: 100%; }
+  .result p { font-size: 13.5px; color: var(--muted); margin: 8px 0 0; }
+
+  /* ---------- Playground: NDCG ---------- */
+  .ranks { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin: 8px 0 6px; }
+  .rank {
+    font: inherit;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 8px 0 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  }
+  .rank:hover { transform: translateY(-2px); }
+  .rank .pos { display: block; font-size: 11px; color: var(--muted); }
+  .rank .mark { display: block; font-size: 18px; line-height: 1.3; color: var(--quartz); }
+  .rank .gain { display: block; font-size: 10.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .rank.on { background: var(--accent-soft); border-color: var(--rose); }
+  .rank.on .mark { color: var(--brick); }
+  .ndcg-out { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px; }
+  .ndcg-out div { background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px; text-align: center; }
+  .ndcg-out b { display: block; font-family: "Fraunces", Georgia, serif; font-size: 22px; font-weight: 600; color: var(--brick); font-variant-numeric: tabular-nums; }
+  .ndcg-out span { font-size: 12px; color: var(--muted); }
+  .presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .presets button {
+    font: inherit;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 12px;
+    cursor: pointer;
+  }
+  .presets button:hover { background: var(--accent-soft); border-color: #f6cfcf; }
+
+  /* Benchmark bars */
+  .bench { display: grid; gap: 14px; margin: 18px 0 6px; }
+  .bench-row { display: grid; grid-template-columns: 170px 1fr; gap: 12px; align-items: center; font-size: 14.5px; }
+  .bench-row .bars { display: grid; gap: 6px; }
+  .bench-row .b { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .bench-row .b i { display: block; height: 14px; border-radius: 999px; }
+  .bench-row .b.sem i { background: var(--brick); }
+  .bench-row .b.full i { background: var(--quartz); }
+  .legend { display: flex; gap: 16px; font-size: 13px; color: var(--muted); justify-content: center; margin-top: 10px; }
+  .legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  .legend .sem::before { background: var(--brick); }
+  .legend .full::before { background: var(--quartz); }
+
+  /* Concepts grid */
+  .concepts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
+  .concept { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; font-size: 15px; line-height: 1.6; }
+  .concept b { display: block; font-family: "Fraunces", Georgia, serif; font-size: 17px; color: var(--wine); margin-bottom: 4px; }
+  .concept p { margin: 0; color: var(--muted); }
+
+  .summary {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 22px;
+    line-height: 1.45;
+    text-align: center;
+    color: var(--brick);
+    margin: 56px auto 0;
+    max-width: 600px;
+    text-wrap: balance;
+  }
+  .summary::before, .summary::after {
+    content: "";
+    display: block;
+    width: 64px;
+    height: 1px;
+    background: var(--quartz);
+    margin: 0 auto 18px;
+  }
+  .summary::after { margin: 18px auto 0; }
+
+  /* Illustrated button back to the about page:
+     grey and white with the laptop closed; black and white with it open on hover */
+  .home-btn {
+    --hb-dark: #9a9a9a;
+    --hb-teal: #d9d9d9;
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 8px 22px -10px rgba(0, 0, 0, 0.35);
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.35s, box-shadow 0.35s;
+  }
+  .home-btn svg { width: 74%; height: auto; display: block; margin-top: 4%; }
+  .home-btn .hb-dark { fill: var(--hb-dark); transition: fill 0.35s ease; }
+  .home-btn .hb-teal { fill: var(--hb-teal); transition: fill 0.35s ease; }
+  .home-btn .hb-open { opacity: 0; transition: opacity 0.35s ease; }
+  .home-btn .hb-closed { transition: opacity 0.35s ease; }
+  .home-btn:hover, .home-btn:focus-visible {
+    --hb-dark: #111111;
+    --hb-teal: #4d4d4d;
+    transform: scale(1.08);
+    border-color: #111;
+    box-shadow: 0 10px 26px -10px rgba(0, 0, 0, 0.5);
+  }
+  .home-btn:hover .hb-open, .home-btn:focus-visible .hb-open { opacity: 1; }
+  .home-btn:hover .hb-closed, .home-btn:focus-visible .hb-closed { opacity: 0; }
+  .home-btn:focus-visible { outline: 2px solid #111; outline-offset: 4px; }
+  .home-btn-tip {
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translate(-6px, -50%);
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #111;
+    color: #fff;
+    font-size: 12.5px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s, transform 0.25s;
+  }
+  .home-btn:hover .home-btn-tip,
+  .home-btn:focus-visible .home-btn-tip { opacity: 1; transform: translate(0, -50%); }
+
+  @media (max-width: 760px) {
+    .toc { display: none; }
+  }
+  @media (max-width: 560px) {
+    body { font-size: 16px; }
+    .article { padding: 40px 16px 110px; }
+    .topnav-inner { padding: 0 12px; }
+    .summary { font-size: 19px; }
+    .flow li { font-size: 13px; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .concepts { grid-template-columns: 1fr; }
+    .card, .play { padding: 18px 16px; }
+    .sig { grid-template-columns: 110px 1fr 40px; gap: 8px; font-size: 13.5px; }
+    .srow, .cols-head { grid-template-columns: 20px 92px 1fr 36px 40px; gap: 6px; font-size: 13px; }
+    .cols-head { font-size: 10px; letter-spacing: 0.04em; }
+    .ranks { grid-template-columns: repeat(5, 1fr); }
+    .ndcg-out { grid-template-columns: 1fr 1fr; }
+    .bench-row { grid-template-columns: 1fr; gap: 6px; }
+    .result .big { font-size: 32px; min-width: 84px; }
+    .home-btn { left: 14px; bottom: 14px; width: 66px; height: 66px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav" aria-label="Site">
+  <div class="topnav-inner">
+    <a class="brand" href="#top">JobPilot<span class="sep" aria-hidden="true"></span>Project</a>
+    <div class="toc" aria-label="On this page">
+      <a href="#parsing">Parsing</a>
+      <a href="#recommendations">Ranking</a>
+      <a href="#learning">Training</a>
+      <a href="#hnsw">HNSW</a>
+      <a href="#ndcg">NDCG</a>
+      <a href="#data">Data</a>
+      <a href="#learned">Learnings</a>
+    </div>
+  </div>
+</nav>
+
+<a class="home-btn" href="/" aria-label="Back to Sriya Mitra's about page">
+  <svg viewBox="0 0 184 175" aria-hidden="true">
+    <defs>
+      <mask id="hb-closed-teal" maskUnits="userSpaceOnUse" x="0" y="0" width="184" height="175"><image width="184" height="175" href="data:image/png;base64,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"/></mask>
+      <mask id="hb-closed-dark" maskUnits="userSpaceOnUse" x="0" y="0" width="184" height="175"><image width="184" height="175" href="data:image/png;base64,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"/></mask>
+      <mask id="hb-open-teal" maskUnits="userSpaceOnUse" x="0" y="0" width="184" height="175"><image width="184" height="175" href="data:image/png;base64,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"/></mask>
+      <mask id="hb-open-dark" maskUnits="userSpaceOnUse" x="0" y="0" width="184" height="175"><image width="184" height="175" href="data:image/png;base64,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"/></mask>
+    </defs>
+    <g class="hb-closed">
+      <rect class="hb-teal" width="184" height="175" mask="url(#hb-closed-teal)"/>
+      <rect class="hb-dark" width="184" height="175" mask="url(#hb-closed-dark)"/>
+    </g>
+    <g class="hb-open">
+      <rect class="hb-teal" width="184" height="175" mask="url(#hb-open-teal)"/>
+      <rect class="hb-dark" width="184" height="175" mask="url(#hb-open-dark)"/>
+    </g>
+  </svg>
+  <span class="home-btn-tip">Back to about</span>
+</a>
+
+<article class="article" id="top">
+  <header class="header">
+    <h1>JobPilot</h1>
+    <p class="lede">An AI job matcher that reads your resume, searches live job boards and 35+ company career sites, ranks every posting with semantic embeddings plus a 6-signal scorer, and learns from each accept or reject.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://jobmatch-1092396389409.us-central1.run.app" target="_blank" rel="noopener">
+        Try the live demo
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 3h7v7M13 3 3 13"/></svg>
+      </a>
+      <a class="btn ghost" href="https://github.com/sriyamitra/jobpilot" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        View the code
+      </a>
+    </div>
+    <div class="built" aria-label="Built with">
+      <span class="label">Built with</span>
+      <span class="chip">Python</span>
+      <span class="chip">sentence-transformers</span>
+      <span class="chip">ChromaDB</span>
+      <span class="chip">scikit-learn</span>
+      <span class="chip">spaCy</span>
+      <span class="chip">Kafka</span>
+      <span class="chip">PySpark</span>
+      <span class="chip">Streamlit</span>
+      <span class="chip">Cloud Run</span>
+    </div>
+  </header>
+
+  <figure class="wide">
+    <div class="shot">
+      <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="title">JobMatch AI · live demo</span></div>
+      <img src="images/landing.webp" width="1600" height="743" alt="JobPilot landing page: 'The job hunt is noisy.' with four steps: your resume, search, 6-signal ranking, learns from you" loading="eager">
+    </div>
+    <figcaption>The live app (published as JobMatch AI). Click <em>Continue as guest</em> to try it without signing up.</figcaption>
+  </figure>
+
+  <section id="overview">
+    <p class="eyebrow">The idea</p>
+    <h2>From thousands of postings to a short list that fits</h2>
+    <p>Job boards sort by keyword and date, so you scroll through hundreds of roles that share a word with your resume but not much else. JobPilot works the other way round. It turns your resume into a profile, finds the postings closest to it in meaning, scores each one on six things that decide whether a job is actually a fit, and shows you why each job ranked where it did. Every time you accept or reject a job, it gets a little better at ranking for you.</p>
+
+    <ol class="flow" aria-label="Pipeline" style="margin-top: 28px;">
+      <li><span>Resume PDF</span></li>
+      <li><span>Parse</span></li>
+      <li><span>Embed</span></li>
+      <li class="fit"><span>Retrieve top 500</span></li>
+      <li><span>Hard filters</span></li>
+      <li class="fit"><span>6-signal score</span></li>
+      <li><span>Learned re-rank</span></li>
+      <li><span>Your top 20</span></li>
+    </ol>
+    <p class="flow-note">Live postings from job boards are fetched in parallel and join the ranking at the scoring step.</p>
+  </section>
+
+  <!-- ============ PARSING ============ -->
+  <section id="parsing">
+    <p class="eyebrow">Step 1</p>
+    <h2>How the resume is parsed</h2>
+    <p>Everything downstream depends on a clean profile, so parsing is deliberately rule-based and predictable. No language model guesses at your experience. The parser pulls six things out of the PDF, and the app shows them back to you to check and edit before searching.</p>
+
+    <ol class="steps">
+      <li><b>Text extraction.</b> <code>pdfplumber</code> reads the PDF page by page and joins the text. spaCy’s English model is loaded alongside it for language processing.</li>
+      <li><b>Contact details.</b> Regular expressions pick out the email, phone number and LinkedIn URL. The name is taken from the first line of the resume.</li>
+      <li><b>Current title.</b> The parser looks for a line near the top containing a title word like <em>analyst</em>, <em>engineer</em> or <em>manager</em>. If none is there, it takes the most recent role from the Experience section.</li>
+      <li><b>Skills.</b> The text is matched against a vocabulary of about 250 skills, such as <em>python</em>, <em>tableau</em> or <em>a/b testing</em>. The same vocabulary is used on job descriptions, so both sides are compared in the same words.</li>
+      <li><b>Years of experience.</b> These are calculated from the dates of each role, not from what the resume claims. Internships are skipped and overlapping jobs are only counted once.</li>
+      <li><b>Summary.</b> The first 250 characters of the resume are kept as a short summary. It gives the embedding some extra context about who you are.</li>
+    </ol>
+  </section>
+
+  <!-- ============ RECOMMENDATIONS ============ -->
+  <section id="recommendations">
+    <p class="eyebrow">Step 2</p>
+    <h2>How recommendations are made</h2>
+    <p>Ranking happens in stages: a fast, rough search narrows 46,000 postings to 500 candidates, strict rules throw out the ones you’d never take, and a detailed scorer orders what’s left.</p>
+
+    <h3>1. Turn text into vectors (embeddings)</h3>
+    <p>Each job is turned into a short piece of text, <span class="mono">“{title} at {company}. Location: … Skills: … {first 400 characters of the description}”</span>, and your profile into <span class="mono">“Candidate for {target titles}. Skills: … {resume summary}”</span>. Both go through the same model, <strong>all-MiniLM-L6-v2</strong> from sentence-transformers, which turns any text into a list of 384 numbers (a vector). Texts that mean similar things end up with vectors that point in similar directions, even when they share no words: “built dashboards in Tableau” lands near “BI reporting”.</p>
+    <p>How close two vectors are is measured with <strong>cosine similarity</strong>: the smaller the angle between them, the more alike the two texts are. It runs from 1 (pointing the same way, same meaning) down to 0 (at right angles, unrelated).</p>
+
+    <figure>
+      <svg viewBox="0 0 680 310" role="img" aria-labelledby="cos-title">
+        <title id="cos-title">Your profile vector with three job vectors. Data Analyst points almost the same way (similarity 0.91), Marketing Coordinator is at a wider angle (0.50), and Line Cook is nearly at a right angle (0.10).</title>
+        <style>
+          .c-job { stroke: #dfd9d8; stroke-width: 2.5; stroke-linecap: round; }
+          .c-near { stroke: #b44446; stroke-width: 2.5; stroke-linecap: round; }
+          .c-me { stroke: #64242f; stroke-width: 3.5; stroke-linecap: round; }
+          .c-arc { fill: none; stroke-width: 1.4; }
+          .c-lbl { font: 500 13px Inter, sans-serif; fill: #2b1a1d; }
+          .c-me-lbl { font: 600 13.5px Inter, sans-serif; fill: #64242f; }
+          .c-num { font: 600 13px Inter, sans-serif; }
+          .c-note { font: 400 11.5px Inter, sans-serif; fill: #6f5d60; }
+        </style>
+        <defs>
+          <marker id="c-head-me" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#64242f"/></marker>
+          <marker id="c-head-near" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#b44446"/></marker>
+          <marker id="c-head-job" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" fill="#dfd9d8"/></marker>
+        </defs>
+
+        <!-- angle arcs -->
+        <path class="c-arc" stroke="#b44446" d="M285.8 246.1 A70 70 0 0 1 289.8 275.5"/>
+        <path class="c-arc" stroke="#c9bcba" stroke-dasharray="3 3" d="M262.3 254.6 A45 45 0 0 0 209.1 226.3"/>
+
+        <!-- vectors from the origin (220, 270) -->
+        <line class="c-job" x1="220" y1="270" x2="164.4" y2="46.8" marker-end="url(#c-head-job)"/>
+        <line class="c-job" x1="220" y1="270" x2="259.9" y2="43.5" marker-end="url(#c-head-job)"/>
+        <line class="c-near" x1="220" y1="270" x2="449.3" y2="288.1" marker-end="url(#c-head-near)"/>
+        <line class="c-me" x1="220" y1="270" x2="436.1" y2="191.3" marker-end="url(#c-head-me)"/>
+        <circle cx="220" cy="270" r="4" fill="#64242f"/>
+
+        <!-- labels -->
+        <text class="c-me-lbl" x="448" y="188">Your profile</text>
+        <text class="c-lbl" x="462" y="293">Data Analyst job</text>
+        <text class="c-num" x="580" y="293" fill="#b44446">0.91</text>
+        <text class="c-lbl" x="272" y="44">Marketing Coordinator</text>
+        <text class="c-num" x="430" y="44" fill="#6f5d60">0.50</text>
+        <text class="c-lbl" x="152" y="44" text-anchor="end">Line Cook</text>
+        <text class="c-num" x="152" y="62" text-anchor="end" fill="#6f5d60">0.10</text>
+        <text class="c-note" x="300" y="264">small angle = close match</text>
+        <text class="c-note" x="200" y="234" text-anchor="end">wide angle = unrelated</text>
+      </svg>
+      <figcaption>Drawn in 2 dimensions; the real vectors have 384. The number next to each job is its cosine similarity to your profile.</figcaption>
+    </figure>
+
+    <h3>2. Retrieve the 500 nearest jobs</h3>
+    <p>Your profile vector is sent to <strong>ChromaDB</strong>, a vector database holding all 46k job vectors in an <a href="#hnsw">HNSW index</a>. It returns the 500 closest jobs in milliseconds. If you leave target titles blank, JobPilot first <strong>suggests them</strong>: it finds the 150 postings nearest your resume, cleans their titles (dropping “Senior”, “II”, locations and shift notes), weights each title by similarity squared so the closest matches dominate, and keeps the top three that appear at least twice. A Business Consulting Analyst resume also gets <em>Data Analyst</em> and <em>Technical Business Analyst</em>.</p>
+    <p>At the same time, live search queries Adzuna, JSearch (Google for Jobs), Remotive and 35 company boards on Greenhouse, Lever and Ashby in parallel threads. Live postings are embedded on the spot with the same model, so their scores are directly comparable to indexed ones, and duplicates are dropped by a content hash (the live copy wins).</p>
+
+    <h3>3. Hard filters</h3>
+    <p>Some things aren’t trade-offs. A job is removed outright if it:</p>
+    <ul class="tight">
+      <li>hits one of your <strong>dealbreakers</strong>, which you write in plain English. “No 5+ years experience required” is parsed into a rule that reads the experience requirement out of each description; seniority words like “senior” or “director” are matched in the title only; and double negatives like “no companies that don’t sponsor” are recognised as requirements, not exclusions;</li>
+      <li>pays less than <strong>70% of your minimum salary</strong> at the top of its range;</li>
+      <li>explicitly <strong>refuses visa sponsorship</strong> (“no H-1B”, “US citizens only”) when you need it.</li>
+    </ul>
+
+    <h3>4. The six signals</h3>
+    <p>Every remaining job gets six scores between 0 and 1:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Signal</th><th class="num">Weight</th><th>How it’s calculated</th></tr></thead>
+        <tbody>
+          <tr><td>Semantic fit</td><td class="num">33%</td><td>Cosine similarity, rescaled. Resume-to-job similarity with this model almost never leaves the 0.20–0.70 band, so that band is stretched onto 0–1.</td></tr>
+          <tr><td>Skill match</td><td class="num">28%</td><td>Share of the job’s skills you have, smoothed toward 50%: <span class="mono">(overlap + 1) / (job skills + 2)</span>. A posting naming one skill you have scores 0.67, not a perfect 1.0.</td></tr>
+          <tr><td>Trajectory</td><td class="num">17%</td><td>1.0 if the title matches a target role (understanding “ML” = “Machine Learning”), 0.2 if not. Multiplied by 0.55 if you’re clearly over- or under-qualified for its seniority.</td></tr>
+          <tr><td>Salary fit</td><td class="num">11%</td><td>1.0 when the top of the range reaches your minimum, fading to 0 at 70% of it.</td></tr>
+          <tr><td>Location fit</td><td class="num">6%</td><td>1.0 for a remote role or a preferred city, 0.2 otherwise.</td></tr>
+          <tr><td>Sponsorship</td><td class="num">6%</td><td>Only if you need it: 1.0 if the posting offers sponsorship, 0.5 if it doesn’t say.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The final score is a weighted average. The important detail: <strong>a signal that can’t be judged is left out instead of scored as a miss</strong>. Most postings list no salary; scoring that as 0 would punish good jobs for missing data. Instead the remaining weights are renormalised to add up to 1 again, and the job card says “not scored”. Try it:</p>
+
+    <div class="play" id="scorer">
+      <div class="play-head">
+        <p class="card-title">Score calculator</p>
+        <label>
+          <span class="sr-only" style="position:absolute;left:-9999px">Persona</span>
+          <select id="persona" aria-label="Persona weights">
+            <option value="default">Default weights</option>
+            <option value="new_grad">New grad</option>
+            <option value="pivoter">Career pivoter</option>
+            <option value="niche_specialist">Niche specialist</option>
+            <option value="visa_constrained">Visa required</option>
+            <option value="senior_exec">Senior / exec</option>
+            <option value="remote_first">Remote-first</option>
+          </select>
+        </label>
+      </div>
+      <div class="cols-head"><span></span><span>Signal</span><span>Value</span><span></span><span>Weight</span></div>
+      <div id="srows"></div>
+      <div class="result">
+        <div class="big" id="score">0%</div>
+        <div class="stack">
+          <div class="stackbar" id="stackbar" aria-hidden="true"></div>
+          <p id="score-note">Untick a signal to see the others reweighted.</p>
+        </div>
+      </div>
+    </div>
+
+    <p><strong>Personas</strong> are simply different starting weights. A career pivoter cares more about overall meaning than exact skill overlap; someone who needs a visa gets sponsorship weighted at 20%. Whichever persona you pick, the learner below fine-tunes on top of it.</p>
+  </section>
+
+  <!-- ============ LEARNING ============ -->
+  <section id="learning">
+    <p class="eyebrow">Step 3</p>
+    <h2>How the model learns from you</h2>
+    <p>The hand-set weights above are a starting guess. What actually makes a job right for <em>you</em> only shows up in what you accept and reject, so JobPilot trains a small model per person.</p>
+
+    <div class="card">
+      <p class="card-title">The training loop</p>
+      <ol class="steps" style="margin: 0;">
+        <li><b>Collect labels.</b> Each accept is stored as a <strong>1</strong> and each reject as a <strong>0</strong>, together with the job’s signal scores at the moment you saw it and the rank it was shown at. Skips are ignored.</li>
+        <li><b>Wait for enough data.</b> Training starts after <strong>5 rated jobs</strong>, and only once there’s at least one accept and one reject. You can’t learn a boundary from one class.</li>
+        <li><b>Standardise.</b> A <code>StandardScaler</code> puts every signal on the same scale (mean 0, standard deviation 1), so no signal looks important just because its numbers are bigger.</li>
+        <li><b>Fit a logistic regression.</b> scikit-learn’s <code>SGDClassifier(loss="log_loss")</code> learns one coefficient per signal, predicting the probability that you’d accept a job from its signal scores.</li>
+        <li><b>Re-rank.</b> On your next search, every job is re-ordered by that predicted probability of acceptance.</li>
+        <li><b>Save new weights.</b> The size of each coefficient, normalised to sum to 1, becomes your new weight for that signal, so the scores on the job cards reflect what you’ve shown you care about.</li>
+      </ol>
+    </div>
+
+    <p>The model is retrained on every search, from all your ratings so far. It is scoped to <strong>you and your persona</strong>: feedback given as a career pivoter doesn’t change your remote-first weights, and every guest gets their own user id, so one visitor’s ratings never train another’s ranking.</p>
+    <p>One way to see it is as a simple <strong>contextual bandit</strong>: the context is your profile plus the job’s signals, the action is showing the job at a rank, and the reward is your accept or reject.</p>
+
+    <div class="callout">
+      <p><strong>What isn’t trained:</strong> the embedding model. all-MiniLM-L6-v2 is used as it comes, pre-trained by its authors on over a billion sentence pairs. With only a handful of ratings per person, fine-tuning a 22-million-parameter model would overfit badly; a 7-coefficient logistic regression learns quickly from five examples.</p>
+    </div>
+  </section>
+
+  <!-- ============ HNSW ============ -->
+  <section id="hnsw">
+    <p class="eyebrow">Concept</p>
+    <h2>What is HNSW?</h2>
+    <p>To find the jobs closest to your profile, the obvious method is to compare your vector with all 46,000 job vectors and sort. That works, but it gets slower with every job added. <strong>HNSW (Hierarchical Navigable Small World)</strong> is the index ChromaDB uses to answer the same question by looking at only a tiny fraction of them.</p>
+    <p>It builds a graph where each job is a node linked to its nearest neighbours, and stacks several layers of that graph:</p>
+    <ul class="tight">
+      <li>The <strong>bottom layer</strong> holds every job, each linked to its close neighbours.</li>
+      <li>Each layer above holds a random, smaller subset, with links that cover longer distances, like express trains that stop at fewer stations.</li>
+    </ul>
+
+    <figure>
+      <svg viewBox="0 0 680 330" role="img" aria-labelledby="hnsw-title">
+        <title id="hnsw-title">Three-layer HNSW graph. The search starts at the top layer, greedily hops toward the query, drops down a layer, and repeats until it finds the nearest neighbours on the bottom layer.</title>
+        <style>
+          .h-plane { fill: #ffffff; stroke: #ebe3e2; }
+          .h-edge { stroke: #dfd9d8; stroke-width: 1.2; }
+          .h-node { fill: #ffffff; stroke: #6f5d60; stroke-width: 1.4; }
+          .h-path { stroke: #b44446; stroke-width: 2.4; fill: none; stroke-linecap: round; }
+          .h-drop { stroke: #b44446; stroke-width: 1.4; stroke-dasharray: 4 4; }
+          .h-on { fill: #fc8f8f; stroke: #b44446; stroke-width: 1.6; }
+          .h-hit { fill: #b44446; stroke: #64242f; stroke-width: 1.6; }
+          .h-lbl { font: 600 11px Inter, sans-serif; fill: #b44446; letter-spacing: 0.08em; }
+          .h-note { font: 400 12px Inter, sans-serif; fill: #6f5d60; }
+          .h-q { font: 600 12px Inter, sans-serif; fill: #64242f; }
+        </style>
+        <!-- Layer 2 (top) y=60 -->
+        <rect class="h-plane" x="110" y="30" width="560" height="62" rx="12"/>
+        <text class="h-lbl" x="0" y="66">LAYER 2</text>
+        <line class="h-edge" x1="160" y1="61" x2="400" y2="61"/>
+        <line class="h-edge" x1="400" y1="61" x2="610" y2="61"/>
+        <circle class="h-on" cx="160" cy="61" r="7"/>
+        <circle class="h-on" cx="400" cy="61" r="7"/>
+        <circle class="h-node" cx="610" cy="61" r="7"/>
+        <path class="h-path" d="M167 61 L393 61"/>
+        <text class="h-note" x="150" y="47" text-anchor="middle">entry</text>
+
+        <!-- Layer 1 y=160 -->
+        <rect class="h-plane" x="110" y="130" width="560" height="62" rx="12"/>
+        <text class="h-lbl" x="0" y="166">LAYER 1</text>
+        <line class="h-edge" x1="160" y1="161" x2="260" y2="161"/>
+        <line class="h-edge" x1="260" y1="161" x2="400" y2="161"/>
+        <line class="h-edge" x1="400" y1="161" x2="490" y2="161"/>
+        <line class="h-edge" x1="490" y1="161" x2="610" y2="161"/>
+        <circle class="h-node" cx="160" cy="161" r="7"/>
+        <circle class="h-node" cx="260" cy="161" r="7"/>
+        <circle class="h-on" cx="400" cy="161" r="7"/>
+        <circle class="h-on" cx="490" cy="161" r="7"/>
+        <circle class="h-node" cx="610" cy="161" r="7"/>
+        <line class="h-drop" x1="400" y1="68" x2="400" y2="154"/>
+        <path class="h-path" d="M407 161 L483 161"/>
+
+        <!-- Layer 0 y=260 -->
+        <rect class="h-plane" x="110" y="230" width="560" height="62" rx="12"/>
+        <text class="h-lbl" x="0" y="266">LAYER 0</text>
+        <text class="h-note" x="0" y="282">every job</text>
+        <g>
+          <line class="h-edge" x1="140" y1="252" x2="190" y2="272"/>
+          <line class="h-edge" x1="190" y1="272" x2="230" y2="250"/>
+          <line class="h-edge" x1="230" y1="250" x2="275" y2="270"/>
+          <line class="h-edge" x1="275" y1="270" x2="320" y2="252"/>
+          <line class="h-edge" x1="320" y1="252" x2="360" y2="274"/>
+          <line class="h-edge" x1="360" y1="274" x2="410" y2="252"/>
+          <line class="h-edge" x1="410" y1="252" x2="450" y2="272"/>
+          <line class="h-edge" x1="450" y1="272" x2="490" y2="250"/>
+          <line class="h-edge" x1="490" y1="250" x2="530" y2="272"/>
+          <line class="h-edge" x1="530" y1="272" x2="570" y2="252"/>
+          <line class="h-edge" x1="570" y1="252" x2="625" y2="270"/>
+          <line class="h-edge" x1="490" y1="250" x2="570" y2="252"/>
+          <line class="h-edge" x1="450" y1="272" x2="530" y2="272"/>
+        </g>
+        <circle class="h-node" cx="140" cy="252" r="6"/>
+        <circle class="h-node" cx="190" cy="272" r="6"/>
+        <circle class="h-node" cx="230" cy="250" r="6"/>
+        <circle class="h-node" cx="275" cy="270" r="6"/>
+        <circle class="h-node" cx="320" cy="252" r="6"/>
+        <circle class="h-node" cx="360" cy="274" r="6"/>
+        <circle class="h-node" cx="410" cy="252" r="6"/>
+        <circle class="h-node" cx="450" cy="272" r="6"/>
+        <circle class="h-on" cx="490" cy="250" r="6"/>
+        <circle class="h-hit" cx="530" cy="272" r="6"/>
+        <circle class="h-hit" cx="570" cy="252" r="6"/>
+        <circle class="h-node" cx="625" cy="270" r="6"/>
+        <line class="h-drop" x1="490" y1="168" x2="490" y2="244"/>
+        <path class="h-path" d="M495 254 L525 268"/>
+        <path class="h-path" d="M496 250 L564 252"/>
+        <!-- query -->
+        <path d="M548 318 L548 300" stroke="#64242f" stroke-width="1.4"/>
+        <text class="h-q" x="548" y="326" text-anchor="middle" dy="0">your profile → its nearest jobs</text>
+      </svg>
+      <figcaption>The search starts at the top, hops greedily toward your profile, drops a layer, and repeats. At the bottom it only has to look around a small neighbourhood.</figcaption>
+    </figure>
+
+    <p>A search starts at an entry point on the top layer and keeps hopping to whichever neighbour is closer to your profile until no neighbour is closer. Then it drops down a layer and continues from there. Each layer gets it nearer, so by the bottom layer it only explores a small neighbourhood to collect the closest results. The number of comparisons grows roughly with the <em>logarithm</em> of the number of jobs instead of the number itself.</p>
+    <p>The trade-off is in the name of the problem it solves: <strong>approximate</strong> nearest-neighbour search. HNSW can occasionally miss a true top match, in exchange for being dramatically faster. For JobPilot that’s fine. Retrieval only needs to get the right jobs <em>into</em> the 500 candidates; the detailed scorer decides the final order. The index is configured with <code>hnsw:space = cosine</code>, so “distance” means 1 − cosine similarity, the same measure used for the semantic signal.</p>
+  </section>
+
+  <!-- ============ NDCG ============ -->
+  <section id="ndcg">
+    <p class="eyebrow">Concept</p>
+    <h2>What are NDCG and MRR?</h2>
+    <p><strong>Why we need them:</strong> to know whether a change to the ranking actually helped, we need a score for the ranking itself. Plain accuracy doesn’t work, because order matters: people mostly look at the top few results, so a good job at #1 is worth far more than the same job at #9. Both metrics use your feedback, counting every accept as a good result and every reject as a bad one.</p>
+
+    <h3>NDCG@10: are the good jobs near the top?</h3>
+    <p>NDCG looks at the top 10 results and gives credit for every job you accepted, with more credit the higher up it appeared. That total is then compared with the best possible ordering of the same jobs, so the score always lands between 0 and 1. A score of 1.0 means every job you liked was ranked above every job you didn’t.</p>
+    <p>We use it because it judges the <em>whole</em> top of the list at once. It’s how we compare two ways of ranking, for example semantic similarity alone against the full 6-signal pipeline, and see which one puts the right jobs first.</p>
+
+    <h3>MRR: how soon do you see the first good job?</h3>
+    <p>MRR only looks at the first job you accepted: 1.0 if it was #1, 0.5 if it was #2, 0.25 if it was #4. It answers a simple question: how far do you have to scroll before something is worth clicking?</p>
+    <p>It matters because first impressions decide whether people keep using a tool. If the first few results are all wrong, most people give up, however good the rest of the list is.</p>
+
+    <div class="play" id="ndcg-play">
+      <div class="play-head">
+        <p class="card-title">Try it: click a position to accept or reject it</p>
+      </div>
+      <div class="ranks" id="ranks"></div>
+      <div class="ndcg-out">
+        <div><b id="o-ndcg">0</b><span>NDCG@10</span></div>
+        <div><b id="o-mrr">0</b><span>MRR</span></div>
+      </div>
+      <div class="presets">
+        <button type="button" data-p="1110000000">Good jobs on top</button>
+        <button type="button" data-p="0000000111">Good jobs at the bottom</button>
+        <button type="button" data-p="0101010000">Mixed</button>
+        <button type="button" data-p="0000000000">Clear</button>
+      </div>
+    </div>
+    <p>The small number under each position is how much credit an accepted job gets there. The same three accepted jobs score 1.0 at the top and about 0.4 at the bottom.</p>
+  </section>
+
+  <!-- ============ DATA ============ -->
+  <section id="data">
+    <p class="eyebrow">Under the hood</p>
+    <h2>Getting 46,000 jobs in</h2>
+    <p>The “big data” half of the project is the ingestion pipeline that builds the index the app searches.</p>
+
+    <div class="concepts">
+      <div class="concept"><b>PySpark deduplication</b><p>The raw posting dataset is loaded with Spark, locations are cleaned, salaries are cast safely (bad strings become nulls, not crashes), and each job gets a SHA-256 hash of title + company + location. A window function keeps only the earliest copy of each hash. Spark also runs the market analytics: top locations, companies, salary averages, remote share.</p></div>
+      <div class="concept"><b>Kafka streaming</b><p>Jobs from the dataset and from the Adzuna and JSearch APIs are produced to a Kafka topic called <code>jobs</code>. A consumer drains it in micro-batches, writes each new job to SQLite (skipping duplicates), and embeds it into ChromaDB. Producers and the consumer never need to know about each other.</p></div>
+      <div class="concept"><b>SQLite + ChromaDB</b><p>SQLite stores the full job records, your feedback and your learned weights. ChromaDB stores the 384-number vectors and the HNSW index. The app looks jobs up in Chroma by meaning, then fetches the details from SQLite by id.</p></div>
+      <div class="concept"><b>Live search with guard rails</b><p>Free API tiers allow about 200–250 calls a month. Live results are cached (1 hour for APIs, 3 for company boards, 6 for Remotive), uncached calls are capped per day and per session, and the free company boards always remain as a fallback.</p></div>
+    </div>
+
+    <h3>Deployment</h3>
+    <p>The app runs in Docker on <strong>Google Cloud Run</strong>, with API keys in Secret Manager and the pre-built database and index baked into the image. The first load used to take about 10 seconds, almost all of it importing PyTorch and spaCy and loading the model before the login screen could appear. Loading the model in a background thread while the login screen shows, caching the market charts and turning off Streamlit’s file watcher brought it to about 1 second.</p>
+  </section>
+
+  <!-- ============ LEARNINGS ============ -->
+  <section id="learned">
+    <p class="eyebrow">Results</p>
+    <h2>What I learned</h2>
+    <h3>More signals didn’t automatically mean better ranking</h3>
+    <p>I benchmarked the full pipeline against the simplest possible ranker, semantic similarity alone, on 34 jobs I had rated myself:</p>
+
+    <div class="card">
+      <div class="bench">
+        <div class="bench-row">
+          <span><strong>NDCG@10</strong></span>
+          <div class="bars">
+            <div class="b sem"><i style="width: 76%"></i>0.76</div>
+            <div class="b full"><i style="width: 49%"></i>0.49</div>
+          </div>
+        </div>
+        <div class="bench-row">
+          <span><strong>MRR</strong></span>
+          <div class="bars">
+            <div class="b sem"><i style="width: 100%"></i>1.00</div>
+            <div class="b full"><i style="width: 100%"></i>1.00</div>
+          </div>
+        </div>
+      </div>
+      <div class="legend"><span class="sem">Semantic similarity only</span><span class="full">Full multi-signal pipeline</span></div>
+    </div>
+
+    <p>Both put a job I wanted at #1, but semantic similarity alone ordered the rest of the top 10 noticeably better. My hand-set weights were a hypothesis, not a result. That finding is why the adaptive learner exists: weights are re-fitted from real feedback instead of my guesses. The <em>Learning insights</em> page in the app computes this benchmark live from each user’s own ratings, so every weighting change is checked against the semantic-only baseline.</p>
+
+    <h3>Perceived speed is a product feature</h3>
+    <p>Nobody waits ten seconds for a demo to load. The fix wasn’t a faster model; it was loading it at the right moment.</p>
+
+    <h3>Free APIs need guard rails before they go public</h3>
+    <p>One busy afternoon of visitors could have spent a month of API quota. Caching, per-day and per-session caps, and a key-less fallback mean the demo keeps working no matter how many people try it.</p>
+
+    <h3>What I’d improve next</h3>
+    <ul class="tight">
+      <li><strong>Keep the sign of learned weights.</strong> New weights come from the size of each coefficient, so a signal that predicts rejection still gains weight. Using signed coefficients (or ranking only by predicted probability) would fix that.</li>
+      <li><strong>Fine-tune the embeddings</strong> on accept/reject pairs pooled across users once there’s enough data.</li>
+      <li><strong>Durable storage.</strong> Cloud Run’s filesystem resets on restart; Postgres with pgvector would keep live-added jobs and usage counters.</li>
+      <li><strong>More career sites.</strong> Workday, iCIMS and Taleo boards aren’t supported yet.</li>
+    </ul>
+
+    <p class="summary">Search by meaning, filter by rules, score with reasons, and let feedback decide the weights.</p>
+
+    <div class="cta" style="margin-top: 32px;">
+      <a class="btn primary" href="https://jobmatch-1092396389409.us-central1.run.app" target="_blank" rel="noopener">Try the live demo</a>
+      <a class="btn ghost" href="https://github.com/sriyamitra/jobpilot" target="_blank" rel="noopener">View the code on GitHub</a>
+    </div>
+  </section>
+</article>
+
+<script>
+  /* ---------- Score calculator ---------- */
+  (function () {
+    // Mirrors src/ml/personas.py (w_transfer is retired and ignored)
+    var PERSONAS = {
+      default:          { ann: 0.30, skill: 0.25, traj: 0.15, salary: 0.10, loc: 0.05, sponsor: 0.05 },
+      new_grad:         { ann: 0.35, skill: 0.30, traj: 0.05, salary: 0.15, loc: 0.05, sponsor: 0.00 },
+      pivoter:          { ann: 0.35, skill: 0.10, traj: 0.10, salary: 0.10, loc: 0.05, sponsor: 0.00 },
+      niche_specialist: { ann: 0.30, skill: 0.40, traj: 0.10, salary: 0.10, loc: 0.05, sponsor: 0.00 },
+      visa_constrained: { ann: 0.25, skill: 0.20, traj: 0.10, salary: 0.10, loc: 0.10, sponsor: 0.20 },
+      senior_exec:      { ann: 0.25, skill: 0.20, traj: 0.25, salary: 0.20, loc: 0.05, sponsor: 0.00 },
+      remote_first:     { ann: 0.30, skill: 0.25, traj: 0.10, salary: 0.10, loc: 0.15, sponsor: 0.00 }
+    };
+    var SIGNALS = [
+      { k: 'ann',     name: 'Semantic fit', v: 0.72, on: true,  color: '#64242f' },
+      { k: 'skill',   name: 'Skill match',  v: 0.64, on: true,  color: '#b44446' },
+      { k: 'traj',    name: 'Trajectory',   v: 1.00, on: true,  color: '#e0696b' },
+      { k: 'salary',  name: 'Salary fit',   v: 0.80, on: false, color: '#fc8f8f' },
+      { k: 'loc',     name: 'Location',     v: 1.00, on: true,  color: '#f4b9b4' },
+      { k: 'sponsor', name: 'Sponsorship',  v: 0.50, on: false, color: '#c9bcba' }
+    ];
+    var rows = document.getElementById('srows');
+    var sel = document.getElementById('persona');
+
+    SIGNALS.forEach(function (s, i) {
+      var r = document.createElement('div');
+      r.className = 'srow';
+      r.innerHTML =
+        '<input type="checkbox" aria-label="Score ' + s.name + '"' + (s.on ? ' checked' : '') + '>' +
+        '<span class="lbl">' + s.name + '</span>' +
+        '<input type="range" min="0" max="1" step="0.01" value="' + s.v + '" aria-label="' + s.name + ' value">' +
+        '<span class="v"></span><span class="w"></span>';
+      rows.appendChild(r);
+      s.row = r;
+      r.querySelector('input[type=checkbox]').addEventListener('change', function (e) { s.on = e.target.checked; render(); });
+      r.querySelector('input[type=range]').addEventListener('input', function (e) { s.v = +e.target.value; render(); });
+    });
+    sel.addEventListener('change', render);
+
+    function render() {
+      var w = PERSONAS[sel.value];
+      var active = SIGNALS.filter(function (s) { return s.on && w[s.k] > 0; });
+      var total = active.reduce(function (a, s) { return a + w[s.k]; }, 0) || 1;
+      var score = 0, bar = '';
+      SIGNALS.forEach(function (s) {
+        var used = s.on && w[s.k] > 0;
+        var eff = used ? w[s.k] / total : 0;
+        s.row.classList.toggle('off', !used);
+        s.row.querySelector('.v').textContent = s.v.toFixed(2);
+        s.row.querySelector('.w').textContent = used ? Math.round(eff * 100) + '%' : '—';
+        score += eff * s.v;
+        if (used) bar += '<i style="width:' + (eff * s.v * 100) + '%;background:' + s.color + '" title="' + s.name + '"></i>';
+      });
+      document.getElementById('score').textContent = Math.round(score * 100) + '%';
+      document.getElementById('stackbar').innerHTML = bar;
+      var off = SIGNALS.filter(function (s) { return !(s.on && w[s.k] > 0); }).map(function (s) { return s.name.toLowerCase(); });
+      document.getElementById('score-note').textContent = off.length
+        ? 'Not scored: ' + off.join(', ') + '. The other weights are scaled up to fill 100%.'
+        : 'All six signals scored.';
+    }
+    render();
+  })();
+
+  /* ---------- NDCG playground ---------- */
+  (function () {
+    var rel = [1, 0, 1, 0, 0, 1, 0, 0, 0, 0];
+    var wrap = document.getElementById('ranks');
+    var btns = rel.map(function (_, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'rank';
+      b.innerHTML = '<span class="pos">#' + (i + 1) + '</span><span class="mark"></span><span class="gain">' +
+        (1 / Math.log2(i + 2)).toFixed(2) + '</span>';
+      b.addEventListener('click', function () { rel[i] = rel[i] ? 0 : 1; render(); });
+      wrap.appendChild(b);
+      return b;
+    });
+    document.querySelectorAll('#ndcg-play .presets button').forEach(function (p) {
+      p.addEventListener('click', function () {
+        rel = p.dataset.p.split('').map(Number);
+        render();
+      });
+    });
+    function render() {
+      var dcg = 0, idcg = 0, mrr = 0, n = 0;
+      rel.forEach(function (r, i) {
+        dcg += r / Math.log2(i + 2);
+        if (r) { n++; if (!mrr) mrr = 1 / (i + 1); }
+      });
+      for (var i = 0; i < n; i++) idcg += 1 / Math.log2(i + 2);
+      btns.forEach(function (b, i) {
+        b.classList.toggle('on', !!rel[i]);
+        b.querySelector('.mark').textContent = rel[i] ? '✓' : '✕';
+        b.setAttribute('aria-pressed', rel[i] ? 'true' : 'false');
+        b.setAttribute('aria-label', 'Position ' + (i + 1) + ': ' + (rel[i] ? 'accepted' : 'rejected'));
+      });
+      document.getElementById('o-ndcg').textContent = idcg ? (dcg / idcg).toFixed(2) : '—';
+      document.getElementById('o-mrr').textContent = mrr ? mrr.toFixed(2) : '—';
+    }
+    render();
+  })();
+</script>
+</body>
+</html>
